@@ -67,24 +67,18 @@ $pageList["manage_directives"] = array(
     "subtitle" => "Directives",
     "subPages" => false,
     "menuTitle" => "Directives");
-$pageList["manage_situation"] = array(
+$pageList["manage_situation_news"] = array(
     "name" => "manage_situation",
     "title" => "Backroom management",
-    "subtitle" => "Situation",
+    "subtitle" => "Situation & news",
     "subPages" => false,
-    "menuTitle" => "Situation");
-$pageList["cabinets"] = array(
+    "menuTitle" => "Situation & news");
+$pageList["cabinets_delegates"] = array(
     "name" => "cabinets",
     "title" => "Backroom management",
-    "subtitle" => "Cabinets & news",
+    "subtitle" => "Cabinets & delegates",
     "subPages" => false,
-    "menuTitle" => "Cabinets & news");
-$pageList["delegates"] = array(
-    "name" => "delegates",
-    "title" => "Backroom management",
-    "subtitle" => "Delegates",
-    "subPages" => false,
-    "menuTitle" => "Delegates");
+    "menuTitle" => "Cabinets & delegates");
 
 
 $menuPageList = array("directives","situation","backroom");
@@ -92,7 +86,7 @@ $menuPageList = array("directives","situation","backroom");
 $subPageList = array();
 $subPageList["directives"] = array("responses","send_directives");
 $subPageList["situation"] = array("economic","military","social");
-$subPageList["backroom"] = array("manage_directives","manage_situation","cabinets","delegates");
+$subPageList["backroom"] = array("manage_directives","manage_situation_news","cabinets_delegates");
 
 function checkPage($askedPage) {
     global $pageList;
