@@ -3,7 +3,7 @@ require("utilities/utils.php");
 if (array_key_exists("page", $_GET)) {
     $askedPage = $_GET["page"];
 } else {
-    $askedPage = "accueil";
+    $askedPage = "home";
 }
 $authorized = checkPage($askedPage);
 if ($authorized) {
@@ -24,19 +24,19 @@ generateHTMLHeader($pageTitle);
 
 <div class="row">
     <div class="page header">
-        <h1>
+        <h1 id="custom-title">
             <?php
             echo $pageTitle;
             ?>
             <br>
             <?php
-            echo "<small>$pageSubtitle</small>";
+            echo "<small id='custom-subtitle'>$pageSubtitle</small>";
             ?>
         </h1>
     </div>
 </div>
 
-<div class="row" id="content">
+<div id="content">
     <?php
     if ($authorized) {
         require("content/content_" . $askedPage . ".php");
@@ -44,7 +44,7 @@ generateHTMLHeader($pageTitle);
         echo <<<CHAINE_DE_FIN
             <div class="row">    
                 <div class="alert alert-danger">
-                    <strong>Une erreur s'est produite !</strong> Je vais m'en occuper...
+                    <strong>Oups, petit bug !</strong> Je vais m'en occuper...
                 </div>
             </div>
             <div class="row">

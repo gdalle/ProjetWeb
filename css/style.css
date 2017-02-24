@@ -3,16 +3,21 @@
     Author     : Guillaume
 */
 
-
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,600,600i,700,700i|Roboto+Condensed:400,400i,700,700i');
 @import url('https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope');
 
-body {
-    font-family: 'Roboto Condensed', sans-serif;
-    background-color: #cccccc;
+h1,h2,h3 {
+    font-weight: bold;
 }
 
-h1,h2,h3 {
+#custom-title {
+    color: rgba(9, 23, 102, 1);
+}
+
+#custom-subtitle {
+    color: rgba(57, 12, 148, 1);
+}
+
+panel-body {
     font-weight: bold;
 }
 
@@ -44,4 +49,43 @@ a:focus {
    
 input-group {
     display: inline;
+}
+
+#custom-bootstrap-menu.navbar-default .navbar-brand {
+    color: rgba(255, 255, 255, 1);
+}
+#custom-bootstrap-menu.navbar-default {
+    font-size: 14px;
+    background-color: rgba(9, 23, 102, 1);
+    border-bottom-width: 1px;
+    border-radius: 10pt;
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>li>a {
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(9, 23, 102, 1);
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>li>a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(57, 12, 148, 1);
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>.active>a,
+#custom-bootstrap-menu.navbar-default .navbar-nav>.active>a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(107, 44, 184, 1);
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle {
+    border-color: #ffffff;
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle:hover,
+#custom-bootstrap-menu.navbar-default .navbar-toggle:focus {
+    background-color: #ffffff;
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle:hover .icon-bar,
+#custom-bootstrap-menu.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #091766;
 }

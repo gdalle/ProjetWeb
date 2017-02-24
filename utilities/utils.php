@@ -1,63 +1,98 @@
 <?php
 
 $pageList = array();
-$pageList["accueil"] = array(
-    "name" => "accueil",
-    "title" => "Assistant DE",
-    "subtitle" => "Accueil",
+$pageList["home"] = array(
+    "name" => "home",
+    "title" => "MUN Crisis Manager",
+    "subtitle" => "Home page",
     "subPages" => false,
-    "menuTitle" => "Accueil");
-$pageList["forums"] = array(
-    "name" => "forums",
-    "title" => "Forums",
-    "subtitle" => "Accueil",
-    "subPages" => true,
-    "menuTitle" => "Forums");
-$pageList["deadlines"] = array(
-    "name" => "deadlines",
-    "title" => "Deadlines",
-    "subtitle" => "Accueil",
-    "subPages" => true,
-    "menuTitle" => "Deadlines");
-$pageList["psc"] = array(
-    "name" => "psc",
-    "title" => "Projets Scientifiques Collectifs",
-    "subtitle" => "Accueil",
-    "subPages" => true,
-    "menuTitle" => "PSC");
-$pageList["langues"] = array(
-    "name" => "langues",
-    "title" => "Cours de langues",
-    "subtitle" => "Accueil",
-    "subPages" => true,
-    "menuTitle" => "Langues");
-$pageList["description"] = array(
-    "name" => "description",
-    "title" => "Cours de langues",
-    "subtitle" => "Description",
+    "menuTitle" => "Home");
+$pageList["login"] = array(
+    "name" => "login",
+    "title" => "MUN Crisis Manager",
+    "subtitle" => "Log in",
     "subPages" => false,
-    "menuTitle" => "Description des cours");
-$pageList["affectation"] = array(
-    "name" => "affectation",
-    "title" => "Cours de langues",
-    "subtitle" => "Affectation",
-    "subPages" => false,
-    "menuTitle" => "Affectation");
-$pageList["prerequis"] = array(
-    "name" => "prerequis",
-    "title" => "Prérequis cours 2A/3A",
-    "subtitle" => "Accueil",
+    "menuTitle" => "Log in");
+$pageList["directives"] = array(
+    "name" => "directives",
+    "title" => "Directives",
+    "subtitle" => "Home",
     "subPages" => true,
-    "menuTitle" => "Prérequis");
+    "menuTitle" => "Directives");
+$pageList["responses"] = array(
+    "name" => "responses",
+    "title" => "Directives",
+    "subtitle" => "Past directives & Responses from the backroom",
+    "subPages" => false,
+    "menuTitle" => "Responses");
+$pageList["send_directives"] = array(
+    "name" => "send_directives",
+    "title" => "Directives",
+    "subtitle" => "Send a directive",
+    "subPages" => false,
+    "menuTitle" => "Send");
+$pageList["situation"] = array(
+    "name" => "situation",
+    "title" => "Situation",
+    "subtitle" => "Home",
+    "subPages" => true,
+    "menuTitle" => "Situation");
+$pageList["military"] = array(
+    "name" => "military",
+    "title" => "Situation",
+    "subtitle" => "Military briefing",
+    "subPages" => false,
+    "menuTitle" => "Military");
+$pageList["economic"] = array(
+    "name" => "economic",
+    "title" => "Situation",
+    "subtitle" => "Economic briefing",
+    "subPages" => false,
+    "menuTitle" => "Economic");
+$pageList["social"] = array(
+    "name" => "social",
+    "title" => "Situation",
+    "subtitle" => "Social & political briefing",
+    "subPages" => false,
+    "menuTitle" => "Social");
+$pageList["backroom"] = array(
+    "name" => "backroom",
+    "title" => "Backroom",
+    "subtitle" => "Where the shit happens",
+    "subPages" => true,
+    "menuTitle" => "Backroom");
+$pageList["manage_directives"] = array(
+    "name" => "manage_directives",
+    "title" => "Backroom management",
+    "subtitle" => "Directives",
+    "subPages" => false,
+    "menuTitle" => "Directives");
+$pageList["manage_situation"] = array(
+    "name" => "manage_situation",
+    "title" => "Backroom management",
+    "subtitle" => "Situation",
+    "subPages" => false,
+    "menuTitle" => "Situation");
+$pageList["cabinets"] = array(
+    "name" => "cabinets",
+    "title" => "Backroom management",
+    "subtitle" => "Cabinets & news",
+    "subPages" => false,
+    "menuTitle" => "Cabinets & news");
+$pageList["delegates"] = array(
+    "name" => "delegates",
+    "title" => "Backroom management",
+    "subtitle" => "Delegates",
+    "subPages" => false,
+    "menuTitle" => "Delegates");
 
-$menuPageList = array("forums", "deadlines", "psc", "langues", "prerequis");
+
+$menuPageList = array("directives","situation","backroom");
 
 $subPageList = array();
-$subPageList["forums"] = array("forums");
-$subPageList["psc"] = array("psc");
-$subPageList["deadlines"] = array("deadlines");
-$subPageList["prerequis"] = array("prerequis");
-$subPageList["langues"] = array("langues", "description", "affectation");
+$subPageList["directives"] = array("responses","send_directives");
+$subPageList["situation"] = array("economic","military","social");
+$subPageList["backroom"] = array("manage_directives","manage_situation","cabinets","delegates");
 
 function checkPage($askedPage) {
     global $pageList;
@@ -125,7 +160,7 @@ function generateMenu($askedPage) {
     global $menuPageList;
     echo <<<CHAINE_DE_FIN
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default">
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -134,7 +169,7 @@ function generateMenu($askedPage) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php?page=accueil">Assistant DE</a>
+                <a class="navbar-brand" href="index.php?page=home">MUN Crisis Manager</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -148,7 +183,10 @@ CHAINE_DE_FIN;
     }
 
     echo <<<CHAINE_DE_FIN
-          </ul>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="index.php?page=login">Login</a></li>
+        </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -194,7 +232,7 @@ function menuSubitems($askedPage, $page) {
         echo $subPage;
         echo "'>";
         if ($subPage == $name) {
-            echo "Accueil";
+            echo "Home";
         } else {
             echo $pageList[$subPage]["menuTitle"];
         }
