@@ -47,5 +47,11 @@ CHAINE_DE_FIN;
             </div>
         </div>
     </div>
+    <form action="utilities/messageHandler.php?todo=send" method="POST">
+      Recipient:<input type="text" name="recipient"><br/>
+      Object:<input type="text" name="title"><br/>
+      Content:<input type="text" name="content"><br/>
+      <input type="submit" value="Send message!">
+    </form>
 
 </div>

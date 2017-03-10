@@ -16,6 +16,8 @@
       $_SESSION['login'] = $_POST['login'];
       $_SESSION['name'] = $data['character'];
       $_SESSION['admin'] = $data['admin'];
+      $_SESSION['id'] = $data['id'];
+      $_SESSION['cabinet'] = $data['cabinet'];
       header("Location: ../index.php"); exit;
     } else { header("Location: ../index.php?page=login&error=true"); exit; }
   }
