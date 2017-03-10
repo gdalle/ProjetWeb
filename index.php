@@ -1,5 +1,7 @@
 <?php
+session_start();
 require("utilities/utils.php");
+
 if (array_key_exists("page", $_GET)) {
     $askedPage = $_GET["page"];
 } else {
@@ -42,7 +44,7 @@ generateHTMLHeader($pageTitle);
         require("content/content_" . $askedPage . ".php");
     } else {
         echo <<<CHAINE_DE_FIN
-            <div class="row">    
+            <div class="row">
                 <div class="alert alert-danger">
                     <strong>Oups, petit bug !</strong> Je vais m'en occuper...
                 </div>
@@ -50,7 +52,7 @@ generateHTMLHeader($pageTitle);
             <div class="row">
                 <img src="medias/sid.jpg" class="img-responsive">
             </div>
-            
+
 CHAINE_DE_FIN;
     }
     ?>
