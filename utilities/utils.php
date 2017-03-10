@@ -6,23 +6,9 @@ function isLogged() {
         return false;
     };
     $db = new PDO('mysql:host=localhost;dbname=MUN;charset=utf8mb4', 'root', '');
-    $req = $db->prepare("SELECT * FROM users WHERE name = ?");
+    $req = $db->prepare("SELECT * FROM users WHERE login = ?");
     $req->execute(array($_SESSION['login']));
     if ($req->rowCount() == 1) {
-        return true;
-    }
-    return false;
-}
-
-function isAdmin() {
-    //On test si l'utilisateur est administrateur
-    if (!isset($_SESSION['login']) || !isset($_SESSION['name']) || !isset($_SESSION['admin'])) {
-        return false;
-    };
-    $db = new PDO('mysql:host=localhost;dbname=MUN;charset=utf8mb4', 'root', '');
-    $req = $db->prepare("SELECT * FROM users WHERE name = ?");
-    $req->execute(array($_SESSION['login']));
-    if ($req->rowCount() == 1 && $req->fetch()['commitee'] == 0) {
         return true;
     }
     return false;
@@ -212,8 +198,8 @@ function generateMenu($askedPage) {
                 <ul class="nav navbar-nav">
 CHAINE_DE_FIN;
     $logged = isLogged();
-    $admin = isAdmin();
     if ($logged) {
+        $admin = $_SESSION['admin']==1;
         if ($admin) {
             $rightMenuPageList = $menuPageListAdmin;
         } else {

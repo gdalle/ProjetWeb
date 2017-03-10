@@ -39,6 +39,7 @@ generateHTMLHeader($pageTitle);
 </div>
 
 <div id="content">
+    
     <?php
     if ($authorized) {
         require("content/content_" . $askedPage . ".php");
