@@ -1,33 +1,5 @@
 <?php
 
-function isLogged() {
-    //On teste si le login en session existe.
-    if (!isset($_SESSION['login']) || !isset($_SESSION['name']) || !isset($_SESSION['admin']) || !isset($_SESSION['id']) || !isset($_SESSION['cabinet'])) {
-        return false;
-    };
-    $db = new PDO('mysql:host=localhost;dbname=MUN;charset=utf8mb4', 'root', '');
-    $req = $db->prepare("SELECT * FROM users WHERE login = ?");
-    $req->execute(array($_SESSION['login']));
-    if ($req->rowCount() == 1) {
-        return true;
-    }
-    return false;
-}
-
-function isAdmin() {
-    //On teste si le login en session existe.
-    if (!isset($_SESSION['login']) || !isset($_SESSION['name']) || !isset($_SESSION['admin']) || !isset($_SESSION['id']) || !isset($_SESSION['cabinet'])) {
-        return false;
-    };
-    $db = new PDO('mysql:host=localhost;dbname=MUN;charset=utf8mb4', 'root', '');
-    $req = $db->prepare("SELECT * FROM users WHERE login = ?");
-    $req->execute(array($_SESSION['login']));
-    if ($req->rowCount() == 1 && $req->fetch()["admin"]) {
-        return true;
-    }
-    return false;
-}
-
 $pageList = array();
 $pageList["home"] = array(
     "name" => "home",
@@ -159,29 +131,38 @@ function getPageSubtitle($askedPage) {
     return "(Grosse erreur)";
 }
 
-function generateHTMLHeader($title) {
+function imports() {
+    echo <<<CHAINE_DE_FIN
+    <!-- CSS Perso -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- CSS Bootstrap et autres -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <!-- Javascript -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/code.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+CHAINE_DE_FIN;
+}
+
+function generateHTMLHeader($pageTitle) {
     echo <<<CHAINE_DE_FIN
     <!DOCTYPE html>
     <html>
         <head>
             <meta charset="UTF-8"/>
             <meta name="author" content="Guillaume Dalle & Benjamin Petit"/>
-            <title>$title</title>
+            <title>$pageTitle</title>
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <!-- CSS Perso -->
-            <link href="css/style.css" rel="stylesheet">
-            <!-- CSS Bootstrap et autres -->
-            <link href="css/bootstrap.css" rel="stylesheet">
-            <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
-            <!-- Javascript -->
-            <script type="text/javascript" src="js/jquery.js"></script>
-            <script type="text/javascript" src="js/bootstrap.js"></script>
-            <script type="text/javascript" src="js/code.js"></script>
-            <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+CHAINE_DE_FIN;
+            imports() ;       
+    echo <<<CHAINE_DE_FIN
+        </head>
         <body>
-            <div class="container fluid">
-
+        <div class="container fluid">
 CHAINE_DE_FIN;
 }
 
@@ -239,7 +220,7 @@ CHAINE_DE_FIN;
         <ul class="nav navbar-nav navbar-right">';
     if ($logged) {
         $name = $_SESSION['name'];
-        echo ('<li><a href="utilities/login.php?todo=logout">' . $name . ' : Log out</a></li>');
+        echo ('<li><a href="index.php?page=home&todo=logout">' . $name . ' : Log out</a></li>');
     } else {
         echo ('<li><a href="index.php?page=login">Log in</a></li>');
     }

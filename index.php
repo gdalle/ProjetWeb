@@ -1,8 +1,31 @@
 <?php
+session_name("SecretSessionName");
 session_start();
-require("utilities/utils.php");
+if (!isset($_SESSION['initiated'])) {
+    session_regenerate_id();
+    $_SESSION['initiated'] = true;
+}
+// Décommenter la ligne suivante pour afficher le tableau $_SESSION pour le debuggage
+//print_r($_SESSION);
 
-if (array_key_exists("page", $_GET)) {
+require("utilities/menu.php");
+require("utilities/database.php");
+$dbh = MyDatabase::connect();
+require("utilities/logInOut.php");
+require("utilities/printForms.php");
+
+// Traitement des contenus de formulaires
+
+if (isset($_GET['todo']) && $_GET['todo'] == "login") {
+    login($dbh);
+}
+if (isset($_GET['todo']) && $_GET['todo'] == "logout") {
+    logout($dbh);
+}
+
+// Selection des pages
+
+if (isset($_GET["page"])) {
     $askedPage = $_GET["page"];
 } else {
     $askedPage = "home";
@@ -13,13 +36,18 @@ if ($authorized) {
     $pageSubtitle = getPageSubtitle($askedPage);
 } else {
     $pageTitle = "Erreur";
-    $pageSubtitle = "(Grosse erreur)";
+    $pageSubtitle = "(Manque de bol)";
 }
 generateHTMLHeader($pageTitle);
+
 ?>
 
 <div class="row">
     <?php
+    //echo "POST <br>";
+    //print_r($_POST);
+    //echo "<br> SESSION <br>";
+    //print_r($_SESSION);
     generateMenu($askedPage);
     ?>
 </div>
@@ -39,7 +67,7 @@ generateHTMLHeader($pageTitle);
 </div>
 
 <div id="content">
-    
+
     <?php
     if ($authorized) {
         require("content/content_" . $askedPage . ".php");
