@@ -2,6 +2,10 @@
 
 session_name("SecretSessionName");
 session_start();
+if (!isset($_SESSION['initiated'])) {
+    session_regenerate_id();
+    $_SESSION['initiated'] = true;
+}
 require("logInOut.php");
 require("database.php");
 $dbh = MyDatabase::connect();
@@ -50,27 +54,29 @@ function delete_cabinet($dbh, $cabinet_id) {
 }
 
 function create_user($dbh) {
-    $argumentsCorrect = isset($_POST["user_login"]) && isset($_POST["user_password"]) && isset($_POST["user_admin"]) && isset($_POST["user_name"]) && isset($_POST["user_cabinet"]) && isset($_POST["user_character"]) && isset($_POST["user_description"]) && strlen($_POST["user_login"]) > 0 && strlen($_POST["user_password"]) > 0 && strlen($_POST["user_name"]) > 0 && strlen($_POST["user_cabinet"]) > 0 && strlen($_POST["user_character"]) > 0;
+    $argumentsCorrect = isset($_POST["user_login"]) && isset($_POST["user_password"]) && isset($_POST["user_name"]) && isset($_POST["user_cabinet"]) && isset($_POST["user_character"]) && isset($_POST["user_description"]) && strlen($_POST["user_login"]) > 0 && strlen($_POST["user_password"]) > 0 && strlen($_POST["user_name"]) > 0 && strlen($_POST["user_cabinet"]) > 0 && strlen($_POST["user_character"]) > 0;
     if ($argumentsCorrect) {
         $user_login = htmlspecialchars($_POST['user_login']);
         $user_password = htmlspecialchars($_POST['user_password']);
-        $user_admin = htmlspecialchars($_POST['user_admin']);
+        $user_admin = 0;
         $user_name = htmlspecialchars($_POST['user_name']);
         $user_cabinet = htmlspecialchars($_POST['user_cabinet']);
         $user_character = htmlspecialchars($_POST['user_character']);
         $user_description = htmlspecialchars($_POST['user_description']);
         $success = User::insertUser($dbh, $user_login, $user_password, $user_admin, $user_name, $user_cabinet, $user_character, $user_description);
-        $user = User::getUserLogin($dbh, $user_login);
-        $user_id = $user->id;
-        echo "<tr id='user_" . $user_id . "'>";
-        echo "<td>" . $user_id . "</td>";
-        echo "<td>" . $user_login . "</td>";
-        echo "<td>" . $user_admin . "</td>";
-        echo "<td>" . $user_name . "</td>";
-        echo "<td>" . $user_cabinet . "</td>";
-        echo "<td>" . $user_character . "</td>";
-        echo "<td><button type='button' class='btn btn-primary delete_user' id='$user_id'>delete</a></td>";
-        echo "</tr>";
+        if ($success) {
+            $user = User::getUserLogin($dbh, $user_login);
+            $user_id = $user->id;
+            echo "<tr id='user_" . $user_id . "'>";
+            echo "<td>" . $user_id . "</td>";
+            echo "<td>" . $user_login . "</td>";
+            echo "<td>" . $user_admin . "</td>";
+            echo "<td>" . $user_name . "</td>";
+            echo "<td>" . $user_cabinet . "</td>";
+            echo "<td>" . $user_character . "</td>";
+            echo "<td><button type='button' class='btn btn-primary delete_user' id='$user_id'>delete</a></td>";
+            echo "</tr>";
+        }
         return $success;
     }
     return false;

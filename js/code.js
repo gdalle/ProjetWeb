@@ -6,8 +6,15 @@ $(document).ready(function () {
                 {cabinet_name: $("#cabinet_name").val(), cabinet_description: $("#cabinet_description").val()},
                 function (rep) {
                     $("#cabinets_table").append(rep);
+                    $(".delete_cabinet").click(function () {
+                        var id = $(this).attr("id");
+                        $.post("utilities/userHandler.php?todo=delete_cabinet",
+                                {cabinet_id: id},
+                                function () {
+                                    $("tr#cabinet_" + id).hide();
+                                });
+                    });
                 });
-
         return false;
     });
 
@@ -16,6 +23,14 @@ $(document).ready(function () {
                 {user_login: $("#user_login").val(), user_password: $("#user_password").val(), user_admin: $("#user_admin").val(), user_name: $("#user_name").val(), user_cabinet: $("#user_cabinet").val(), user_character: $("#user_character").val(), user_description: $("#user_description").val()},
                 function (rep) {
                     $("#users_table").append(rep);
+                    $(".delete_user").click(function () {
+                        var id = $(this).attr("id");
+                        $.post("utilities/userHandler.php?todo=delete_user",
+                                {user_id: id},
+                                function () {
+                                    $("tr#user_" + id).hide();
+                                });
+                    });
                 });
         return false;
     });
@@ -30,10 +45,11 @@ $(document).ready(function () {
     });
 
     $(".delete_user").click(function () {
+        var id = $(this).attr("id");
         $.post("utilities/userHandler.php?todo=delete_user",
-                {user_id: $(this).attr("id")},
+                {user_id: id},
                 function () {
-                    $("tr#user_" + $(this).attr('id')).hide();
+                    $("tr#user_" + id).hide();
                 });
     });
 
