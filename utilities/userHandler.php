@@ -1,5 +1,4 @@
 <?php
-
 session_name("SecretSessionName");
 session_start();
 if (!isset($_SESSION['initiated'])) {
@@ -35,7 +34,7 @@ function create_cabinet($dbh) {
             echo "<td>$cabinet_id</td>";
             echo "<td>$cabinet_name</td>";
             echo "<td>$cabinet_description</td>";
-            echo "<td><button type='button' class='btn btn-primary delete_cabinet' id=" . $cabinet_id . ">delete</button></td>";
+            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id=delete_cabinet_" . $cabinet->id . "></span></td>";
             echo "</tr>";
         }
         return $success;
@@ -74,7 +73,7 @@ function create_user($dbh) {
             echo "<td>" . $user_name . "</td>";
             echo "<td>" . $user_cabinet . "</td>";
             echo "<td>" . $user_character . "</td>";
-            echo "<td><button type='button' class='btn btn-primary delete_user' id='$user_id'>delete</a></td>";
+            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id=delete_user_" . $user->id . "></span></td>";
             echo "</tr>";
         }
         return $success;

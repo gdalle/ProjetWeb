@@ -47,7 +47,7 @@ class User {
         $sth->closeCursor();
         return $user;
     }
-    
+
     public static function getUserLogin($dbh, $login) {
         $query = "SELECT * FROM `users` WHERE login = ?";
         $sth = $dbh->prepare($query);
@@ -92,6 +92,37 @@ class User {
         }
     }
 
+    public static function setPassword($dbh, $user, $oldPassword, $newPassword) {
+        if (User::testPassword($user, $oldPassword)) {
+            $query = "UPDATE `users` SET `password_hash` = SHA1(?) WHERE id = ?";
+            $sth = $dbh->prepare($query);
+            $success = $sth->execute(array($newPassword, $user->id));
+            return $success;
+        }
+        return false;
+    }
+
+    public static function setDescription($dbh, $user, $newDescription) {
+        $query = "UPDATE `users` SET `description` = ? WHERE id = ?";
+        $sth = $dbh->prepare($query);
+        $success = $sth->execute(array($newDescription, $user->id));
+        return $success;
+    }
+
+    public static function setEmail($dbh, $user, $newEmail) {
+        $query = "UPDATE `users` SET `email` = ? WHERE id = ?";
+        $sth = $dbh->prepare($query);
+        $success = $sth->execute(array($newEmail, $user->id));
+        return $success;
+    }
+
+    public static function setPhone($dbh, $user, $newPhone) {
+        $query = "UPDATE `users` SET `phone` = ? WHERE id = ?";
+        $sth = $dbh->prepare($query);
+        $success = $sth->execute(array($newPhone, $user->id));
+        return $success;
+    }
+
 }
 
 class Cabinet {
@@ -114,7 +145,7 @@ class Cabinet {
         $sth->closeCursor();
         return $cabinet;
     }
-    
+
     public static function getCabinetName($dbh, $name) {
         $query = "SELECT * FROM `cabinets` WHERE name = ?";
         $sth = $dbh->prepare($query);
@@ -261,4 +292,5 @@ class NewsItem {
     }
 
 }
+
 ?>

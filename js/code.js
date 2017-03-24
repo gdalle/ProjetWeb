@@ -1,5 +1,56 @@
 $(document).ready(function () {
 
+    $("#change_email").click(function () {
+        $.post("utilities/profileChanger.php?todo=change_email",
+                {newEmail: $("#newEmail").val()},
+                function (rep) {
+                    $("#change_result").show();
+                    $("#change_result").html(rep);
+                });
+        return false;
+    });
+
+    $("#change_description").click(function () {
+        $.post("utilities/profileChanger.php?todo=change_description",
+                {newDescription: $("#newDescription").val()},
+                function (rep) {
+                    $("#change_result").show();
+                    $("#change_result").html(rep);
+                });
+        return false;
+    });
+
+    $("#change_phone").click(function () {
+        $.post("utilities/profileChanger.php?todo=change_phone",
+                {newPhone: $("#newPhone").val()},
+                function (rep) {
+                    $("#change_result").show();
+                    $("#change_result").html(rep);
+                });
+        return false;
+    });
+
+    $("#change_password").click(function () {
+        $.post("utilities/profileChanger.php?todo=change_password",
+                {newPassword: $("#newPassword").val(), oldPassword: $("#oldPassword").val()},
+                function (rep) {
+                    $("#password_change_result").html(rep);
+                });
+        return false;
+    });
+
+    $(".show_changer").mouseenter(function () {
+        $(this).css("color", "red");
+    });
+
+    $(".show_changer").click(function () {
+        $("#" + $(this).attr("id") + "_form").toggle();
+    });
+
+    $(".show_changer").mouseout(function () {
+        $(this).css("color", "black");
+    });
+
 
     $("#create_cabinet").submit(function () {
         $.post("utilities/userHandler.php?todo=create_cabinet",
@@ -7,7 +58,7 @@ $(document).ready(function () {
                 function (rep) {
                     $("#cabinets_table").append(rep);
                     $(".delete_cabinet").click(function () {
-                        var id = $(this).attr("id");
+                        var id = $(this).attr("id").substr(15);
                         $.post("utilities/userHandler.php?todo=delete_cabinet",
                                 {cabinet_id: id},
                                 function () {
@@ -24,7 +75,7 @@ $(document).ready(function () {
                 function (rep) {
                     $("#users_table").append(rep);
                     $(".delete_user").click(function () {
-                        var id = $(this).attr("id");
+                        var id = $(this).attr("id").substr(12);
                         $.post("utilities/userHandler.php?todo=delete_user",
                                 {user_id: id},
                                 function () {
@@ -35,8 +86,17 @@ $(document).ready(function () {
         return false;
     });
 
+    $(".delete_user").mouseenter(function () {
+        $(this).css("color", "red");
+    });
+
+    $(".delete_user").mouseout(function () {
+        $(this).css("color", "black");
+    });
+
     $(".delete_cabinet").click(function () {
-        var id = $(this).attr("id");
+        var id = $(this).attr("id").substr(15);
+        console.log(id);
         $.post("utilities/userHandler.php?todo=delete_cabinet",
                 {cabinet_id: id},
                 function () {
@@ -44,8 +104,17 @@ $(document).ready(function () {
                 });
     });
 
+    $(".delete_cabinet").mouseenter(function () {
+        $(this).css("color", "red");
+    });
+
+    $(".delete_cabinet").mouseout(function () {
+        $(this).css("color", "black");
+    });
+
     $(".delete_user").click(function () {
-        var id = $(this).attr("id");
+        var id = $(this).attr("id").substr(12);
+        console.log(id);
         $.post("utilities/userHandler.php?todo=delete_user",
                 {user_id: id},
                 function () {
@@ -77,10 +146,11 @@ $(document).ready(function () {
         chart.draw(data, options);
     }
 
-    $("#regions_div").ready(function () {
-        google.charts.load('current', {'packages': ['geochart']});
-        google.charts.setOnLoadCallback(drawRegionsMap);
-    });
-
+    /*
+     $("#regions_div").ready(function () {
+     google.charts.load('current', {'packages': ['geochart']});
+     google.charts.setOnLoadCallback(drawRegionsMap);
+     });
+     */
 
 });

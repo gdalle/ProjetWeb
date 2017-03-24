@@ -12,11 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Applications/XAMPP/htdocs/CrisisManager/content/content_military.php</file>
-            <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/logInOut.php</file>
-            <file>file:/Applications/XAMPP/htdocs/CrisisManager/content/content_cabinets_delegates.php</file>
             <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/database.php</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/content/content_profile.php</file>
             <file>file:/Applications/XAMPP/htdocs/CrisisManager/js/code.js</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/passwordChanger.php</file>
             <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/userHandler.php</file>
             <file>file:/Applications/XAMPP/htdocs/CrisisManager/index.php</file>
             <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/menu.php</file>
