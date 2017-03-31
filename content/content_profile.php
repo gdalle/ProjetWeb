@@ -29,7 +29,7 @@ if ($noUser) {
                 if (isAdmin() || $rightUser) {
                     echo <<<END_STRING
                 <br>
-                <form action="utilities/upload_picture.php" method="post" enctype="multipart/form-data">
+                <form action="utilities/uploadPicture.php" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="profile_picture">Change your picture<br>(jpg format)</label>
                         <input type="file" class="form-control" name="profile_picture" id="profile_picture"/>
@@ -71,6 +71,7 @@ END_STRING;
                         if ($rightUser || isAdmin()) {
                             echo <<<END_STRING
                             <span class='glyphicon glyphicon-pencil show_changer' id="show_changer_1"></span>
+                            <br>
                             <form id="show_changer_1_form" hidden>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="newDescription" placeholder="Enter new description">
@@ -87,6 +88,7 @@ END_STRING;
                         if ($rightUser || isAdmin()) {
                             echo <<<END_STRING
                             <span class='glyphicon glyphicon-pencil show_changer' id="show_changer_2"></span>
+                            <br>
                             <form id="show_changer_2_form" hidden>
                                 <div class="form-group">
                                     <input type="email" class="form-control" id="newEmail" placeholder="Enter new email">
@@ -103,6 +105,7 @@ END_STRING;
                         if ($rightUser || isAdmin()) {
                             echo <<<END_STRING
                             <span class='glyphicon glyphicon-pencil show_changer' id="show_changer_3"></span>
+                            <br>
                             <form id="show_changer_3_form" hidden>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="newPhone" placeholder="Enter new phone">
@@ -138,11 +141,11 @@ END_STRING;
                     <li class="list-group-item">
                         <form id="password_changer">
                             <div class="form-group">
-                                <label for="oldPassword">Old password</label>
+                                <label for="oldPassword">Old password :</label>
                                 <input type="password" class="form-control" id="oldPassword">
                             </div>
                             <div class="form-group">
-                                <label for="newPassword">New password</label>
+                                <label for="newPassword">New password :</label>
                                 <input type="password" class="form-control" id="newPassword">
                             </div>
                             <button type='submit' class='btn btn-primary' id='change_password'>Change password</button>

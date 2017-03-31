@@ -85,9 +85,21 @@
             </div>
             <div class="panel-body">
                 <form action="index.php?page=home" id="create_cabinet" method="post">
-                    Name : <input type="text" name="cabinet_name" id="cabinet_name"><br>
-                    Description : <input type="text" name="cabinet_description" id="cabinet_description"><br>
-                    <input type="submit" value="Create">
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Name</label> 
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="cabinet_name" id="cabinet_name">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea rows="2" class="form-control" name="cabinet_description" id="cabinet_description"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create</button>
                 </form>
             </div>
         </div>
@@ -99,15 +111,67 @@
             </div>
             <div class="panel-body">
                 <form action="index.php?page=home" id="create_user" method="post">
-                    Login : <input type="text" name="user_login" id="user_login"><br>
-                    Password : <input type="text" name="user_password" id="user_password"><br>
-                    Admin : <input type="radio" name="user_admin" value="1" id="user_admin1">Yes
-                    <input type="radio" name="user_admin" value="0" id="user_admin0" checked>No<br>
-                    Name : <input type="text" name="user_name" id="user_name"><br>
-                    Cabinet : <input type="number" name="user_cabinet" id="user_cabinet"><br>
-                    Character : <input type="text" name="user_character" id="user_character"><br>
-                    Description : <input type="text" name="user_description" value="Nothing to say" id="user_description"><br>
-                    <input type="submit" value="Create">
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Login</label> 
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="user_login" id="user_login">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Password</label> 
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" name="user_password" id="user_password">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Admin ?</label> 
+                        <div class="col-sm-9">
+                            <input type="radio" name="user_admin" value="1" id="user_admin1"> Yes &nbsp;
+                            <input type="radio" name="user_admin" value="0" id="user_admin0" checked> No                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Name</label> 
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="user_name" id="user_name">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Cabinet</label> 
+                        <div class="col-sm-9">
+                            <select name="user_cabinet" id="user_cabinet">
+                                <?php
+                                $query = "SELECT * FROM `cabinets`";
+                                $sth = $dbh->prepare($query);
+                                $sth->setFetchMode(PDO::FETCH_CLASS, 'Cabinet');
+                                $success = $sth->execute();
+                                while ($cabinet = $sth->fetch()) {
+                                    echo "<option value='" . $cabinet->id . "'>" . $cabinet->name . "</option>";
+                                }
+                                ?>
+                            </select>                        
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Character</label> 
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="user_character" id="user_character">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="cabinet_name" class="col-sm-3 col-form-label">Description</label> 
+                        <div class="col-sm-9">
+                            <textarea rows="2" class="form-control" name="user_description" id="user_description"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create</button>
                 </form>
             </div>
         </div>
