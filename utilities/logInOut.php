@@ -7,6 +7,7 @@ function login($dbh) {
         $_SESSION["userId"] = $user->id;
         $_SESSION["admin"] = $user->admin;
         $_SESSION["name"] = $user->name;
+        $_SESSION["cabinet"] = $user->cabinet;
     }
 }
 

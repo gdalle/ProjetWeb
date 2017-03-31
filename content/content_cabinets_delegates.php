@@ -24,7 +24,7 @@
                             echo "<td>" . $data["id"] . "</td>";
                             echo "<td>" . $data["name"] . "</td>";
                             echo "<td>" . $data["description"] . "</td>";
-                            echo "<td><button type='button' class='btn btn-primary delete_cabinet' id=" . $data['id'] . ">delete</button></td>";
+                            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id=delete_cabinet_" . $data['id'] . "></span></td>";
                             echo "</tr>";
                         }
                         ?>
@@ -65,7 +65,7 @@
                             echo "<td>" . $data["name"] . "</td>";
                             echo "<td>" . $data["cabinet"] . "</td>";
                             echo "<td>" . $data["character"] . "</td>";
-                            echo "<td><button type='button' class='btn btn-primary delete_user' id='" . $data['id'] . "'>delete</button></td>";
+                            echo "<td><span class='glyphicon glyphicon-remove delete_user' id=delete_user_" . $data['id'] . "></span></td>";
                             echo "</tr>";
                         }
                         ?>
@@ -85,8 +85,8 @@
             </div>
             <div class="panel-body">
                 <form action="index.php?page=home" id="create_cabinet" method="post">
-                    Name : <input type="text" name="cabinet_name" id="cabinet_name"></input><br>
-                    Description : <input type="text" name="cabinet_description" id="cabinet_description"></input><br>
+                    Name : <input type="text" name="cabinet_name" id="cabinet_name"><br>
+                    Description : <input type="text" name="cabinet_description" id="cabinet_description"><br>
                     <input type="submit" value="Create">
                 </form>
             </div>
@@ -99,14 +99,14 @@
             </div>
             <div class="panel-body">
                 <form action="index.php?page=home" id="create_user" method="post">
-                    Login : <input type="text" name="user_login" id="user_login"></input><br>
-                    Password : <input type="text" name="user_password" id="user_password"></input><br>
+                    Login : <input type="text" name="user_login" id="user_login"><br>
+                    Password : <input type="text" name="user_password" id="user_password"><br>
                     Admin : <input type="radio" name="user_admin" value="1" id="user_admin1">Yes
                     <input type="radio" name="user_admin" value="0" id="user_admin0" checked>No<br>
-                    Name : <input type="text" name="user_name" id="user_name"></input><br>
-                    Cabinet : <input type="number" name="user_cabinet" id="user_cabinet"></input><br>
-                    Character : <input type="text" name="user_character" id="user_character"></input><br>
-                    Description : <input type="text" name="user_description" value="Nothing to say" id="user_description"></input><br>
+                    Name : <input type="text" name="user_name" id="user_name"><br>
+                    Cabinet : <input type="number" name="user_cabinet" id="user_cabinet"><br>
+                    Character : <input type="text" name="user_character" id="user_character"><br>
+                    Description : <input type="text" name="user_description" value="Nothing to say" id="user_description"><br>
                     <input type="submit" value="Create">
                 </form>
             </div>

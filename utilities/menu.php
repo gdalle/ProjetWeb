@@ -1,5 +1,4 @@
 <?php
-
 $pageList = array();
 $pageList["home"] = array(
     "name" => "home",
@@ -13,12 +12,6 @@ $pageList["news_messages"] = array(
     "subtitle" => "Keep tabs on the universe",
     "subPages" => false,
     "menuTitle" => "News & Messages");
-$pageList["login"] = array(
-    "name" => "login",
-    "title" => "MUN Crisis Manager",
-    "subtitle" => "Log in",
-    "subPages" => false,
-    "menuTitle" => "Log in");
 $pageList["directives"] = array(
     "name" => "directives",
     "title" => "Directives",
@@ -91,6 +84,20 @@ $pageList["cabinets_delegates"] = array(
     "subtitle" => "Cabinets & delegates",
     "subPages" => false,
     "menuTitle" => "Cabinets & delegates");
+$pageList["login"] = array(
+    "name" => "login",
+    "title" => "MUN Crisis Manager",
+    "subtitle" => "Log in",
+    "subPages" => false,
+    "menuTitle" => "Log in");
+$pageList["profile"] = array(
+    "name" => "profile",
+    "title" => "Manage your profile",
+    "subtitle" => "Tell us all about you",
+    "subPages" => false,
+    "menuTitle" => "Profile");
+
+
 
 $menuPageList = array("news_messages", "situation", "directives");
 $menuPageListAdmin = array("news_messages", "situation", "backroom");
@@ -142,7 +149,7 @@ function imports() {
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/code.js"></script>
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 CHAINE_DE_FIN;
 }
@@ -152,7 +159,7 @@ function generateHTMLHeader($pageTitle) {
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset="UTF-8"/>
+            <meta charset="utf-8"/>
             <meta name="author" content="Guillaume Dalle & Benjamin Petit"/>
             <title>$pageTitle</title>
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -190,7 +197,7 @@ function generateMenu($askedPage) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php?page=home">MUN Crisis Manager</a>
+                <a class="navbar-brand" href="index.php?page=home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -220,7 +227,8 @@ CHAINE_DE_FIN;
         <ul class="nav navbar-nav navbar-right">';
     if ($logged) {
         $name = $_SESSION['name'];
-        echo ('<li><a href="index.php?page=home&todo=logout">' . $name . ' : Log out</a></li>');
+        echo ('<li><a href="index.php?page=profile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>');
+        echo ('<li><a href="index.php?page=home&todo=logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a></li>');
     } else {
         echo ('<li><a href="index.php?page=login">Log in</a></li>');
     }

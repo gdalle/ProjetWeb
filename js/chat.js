@@ -1,0 +1,25 @@
+$(document).ready(function () {
+
+  $("#sendMessage").click(function(){
+        var message = $("#message").val();
+        if (message != "")
+        {
+            $.post("utilities/chatHandler.php?todo=sendMessage", {message: message});
+            $("#message").val("");
+        }
+        return true;
+    });
+
+  $("#sendMessageForm").submit(function(){return false;});
+
+    function displayMessages()
+    {
+        $.get('utilities/chatHandler.php?todo=getMessages', 'false', function(data) {
+        $('#chatbox').html(data); $('#chatbox').scrollTop($('#chatbox').get(0).scrollHeight);
+      }, 'text');
+    }
+
+    displayMessages();
+
+    setInterval(displayMessages, 2000);
+});
