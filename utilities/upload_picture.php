@@ -19,7 +19,6 @@ function resizeImage($photoHD, $photoLD, $newWidth) {
     imagejpeg($tmpPhotoLD, $photoLD, 100);
 }
 
-echo 'Hello';
 // ex pour une image jpg
 if (!empty($_FILES['profile_picture']['tmp_name']) && is_uploaded_file($_FILES['profile_picture']['tmp_name'])) {
 // Le fichier a bien été téléchargé
@@ -33,12 +32,13 @@ if (!empty($_FILES['profile_picture']['tmp_name']) && is_uploaded_file($_FILES['
             $newWidth = 200;
             $photoHD = "../img/" . $user->login . ".jpg";
             $photoLD = "../img/" . $user->login . "LD.jpg";
-            resizeImage($photoHD, $photoLD, $newWidth);
-            echo "Resize successful";
+            #resizeImage($photoHD, $photoLD, $newWidth);
+            echo "Resize not successful";
         } else {
             echo "Upload failed";
         }
     } else
         echo "Wrong file type";
 }
+header("Location: ../index.php?page=profile");
 ?>

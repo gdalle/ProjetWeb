@@ -14,7 +14,7 @@ $cabinet = Cabinet::getCabinet($dbh, $user->cabinet);
 
             <div class="panel-body">
                 <?php
-                $photoLD = "img/" . $user->login . "LD.jpg";
+                $photoLD = "img/" . $user->login . ".jpg";
                 echo "<img class='img-responsive' src=$photoLD alt='Profile picture'>";
                 ?>
                 <br>
