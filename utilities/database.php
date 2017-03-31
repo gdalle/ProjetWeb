@@ -247,7 +247,7 @@ class Message {
     }
 
     public static function deleteMessage($dbh, $id) {
-        $query = "DELETE FROM `dmessages` WHERE id = ?";
+        $query = "DELETE FROM `messages` WHERE id = ?";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array($id));
         return $success;
@@ -278,16 +278,17 @@ class NewsItem {
     }
 
     public static function insertNewsItem($dbh, $title, $content) {
-        $query = "INSERT INTO `messages` (`id`, `time`, `title`, `content`) VALUES (`NULL`, `NULL`, ?, ?)";
+        $query = "INSERT INTO `messages` (`id`, `time`, `title`, `content`) VALUES (`NULL`, `NULL`, ?, ?);";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array($dbh, $title, $content));
         return $success;
     }
 
     public static function deleteNewsItem($dbh, $id) {
-        $query = "DELETE * FROM `news` WHERE id = ?";
+        $query = "DELETE FROM news WHERE id = ?;";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array($id));
+        echo $success;
         return $success;
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 function displayNews()
 {
   $db = MyDatabase::connect();
