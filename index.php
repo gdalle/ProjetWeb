@@ -35,8 +35,8 @@ if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
     $pageSubtitle = getPageSubtitle($askedPage);
 } else {
-    $pageTitle = "Erreur";
-    $pageSubtitle = "(Manque de bol)";
+    $pageTitle = "Failure";
+    $pageSubtitle = "(Terrible failure)";
 }
 generateHTMLHeader($pageTitle);
 
@@ -75,7 +75,7 @@ generateHTMLHeader($pageTitle);
         echo <<<CHAINE_DE_FIN
             <div class="row">
                 <div class="alert alert-danger">
-                    <strong>Oups, petit bug !</strong> Je vais m'en occuper...
+                    <strong>Oops, something went wrong.</strong> Please don't do that again...
                 </div>
             </div>
             <div class="row">

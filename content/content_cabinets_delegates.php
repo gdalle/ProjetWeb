@@ -65,7 +65,7 @@
                             echo "<td>" . $data["name"] . "</td>";
                             echo "<td>" . $data["cabinet"] . "</td>";
                             echo "<td>" . $data["character"] . "</td>";
-                            echo "<td><span class='glyphicon glyphicon-remove delete_user' id=delete_user_" . $data['id'] . "></span></td>";
+                            echo "<td><span class='glyphicon glyphicon-remove delete_user' id=delete_user_" . $data['id'] . "><a href='index.php?page=profile&userId=" . $data['id'] . "'></span><span class='glyphicon glyphicon-user'></span></a></td>";
                             echo "</tr>";
                         }
                         ?>

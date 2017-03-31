@@ -73,7 +73,7 @@ function create_user($dbh) {
             echo "<td>" . $user_name . "</td>";
             echo "<td>" . $user_cabinet . "</td>";
             echo "<td>" . $user_character . "</td>";
-            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id=delete_user_" . $user->id . "></span></td>";
+            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id=delete_user_" . $user->id . "></span><a href='index.php?page=profile&userId=" . $user->id . "'></span><span class='glyphicon glyphicon-user'></span></a></td>";
             echo "</tr>";
         }
         return $success;
