@@ -39,9 +39,9 @@ function change_description($dbh) {
     $newDescription = htmlspecialchars($_POST["newDescription"]);
     $success = User::setDescription($dbh, $user, $newDescription);
     if ($success) {
-        echo "Description successfully changed. Please refresh to see it.";
+        echo $newDescription;
     } else {
-        echo "Description hasn't changed";
+        echo "No change occurred";
     }
 }
 
@@ -50,9 +50,9 @@ function change_email($dbh) {
     $newEmail = htmlspecialchars($_POST["newEmail"]);
     $success = User::setEmail($dbh, $user, $newEmail);
     if ($success) {
-        echo "Email successfully changed. Please refresh to see it.";
+        echo $newEmail;
     } else {
-        echo "Email hasn't changed";
+        echo "No change occurred";
     }
 }
 
@@ -61,9 +61,9 @@ function change_phone($dbh) {
     $newPhone = htmlspecialchars($_POST["newPhone"]);
     $success = User::setPhone($dbh, $user, $newPhone);
     if ($success) {
-        echo "Phone number successfully changed. Please refresh to see it.";
+        echo $newPhone;
     } else {
-        echo "Phone number hasn't changed";
+        echo "No change occurred";
     }
 }
 

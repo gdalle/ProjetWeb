@@ -1,21 +1,31 @@
 $(document).ready(function () {
+    
+    $("#change_description").click(function () {
+        $.post("utilities/profileChanger.php?todo=change_description",
+                {newDescription: $("#newDescription").val()},
+                function (rep) {
+                    if (rep == "No change occurred") {
+                        $("#change_result").show();
+                        $("#change_result").html(rep);
+                    } else {
+                        $("#show_changer_1_form").hide();
+                        $("#content_changer_1").html(rep);
+                    }
+                });
+        return false;
+    });
 
     $("#change_email").click(function () {
         $.post("utilities/profileChanger.php?todo=change_email",
                 {newEmail: $("#newEmail").val()},
                 function (rep) {
-                    $("#change_result").show();
-                    $("#change_result").html(rep);
-                });
-        return false;
-    });
-
-    $("#change_description").click(function () {
-        $.post("utilities/profileChanger.php?todo=change_description",
-                {newDescription: $("#newDescription").val()},
-                function (rep) {
-                    $("#change_result").show();
-                    $("#change_result").html(rep);
+                    if (rep == "No change occurred") {
+                        $("#change_result").show();
+                        $("#change_result").html(rep);
+                    } else {
+                        $("#show_changer_2_form").hide();
+                        $("#content_changer_2").html(rep);
+                    }
                 });
         return false;
     });
@@ -24,8 +34,13 @@ $(document).ready(function () {
         $.post("utilities/profileChanger.php?todo=change_phone",
                 {newPhone: $("#newPhone").val()},
                 function (rep) {
-                    $("#change_result").show();
-                    $("#change_result").html(rep);
+                    if (rep == "No change occurred") {
+                        $("#change_result").show();
+                        $("#change_result").html(rep);
+                    } else {
+                        $("#show_changer_3_form").hide();
+                        $("#content_changer_3").html(rep);
+                    }
                 });
         return false;
     });

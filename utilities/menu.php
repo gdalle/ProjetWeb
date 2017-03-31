@@ -95,7 +95,7 @@ $pageList["profile"] = array(
 
 $menuPageList = array("news_messages", "situation", "directives");
 $menuPageListAdmin = array("news_messages", "situation", "backroom");
-$menuPageListUnlogged = array("news_messages", "situation");
+$menuPageListUnlogged = array();
 
 $subPageList = array();
 $subPageList["directives"] = array("responses", "send_directives");
@@ -221,7 +221,7 @@ CHAINE_DE_FIN;
         <ul class="nav navbar-nav navbar-right">';
     if ($logged) {
         $name = $_SESSION['name'];
-        echo ('<li><a href="index.php?page=profile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>');
+        echo ("<li><a href='index.php?page=profile&userId=". $_SESSION["userId"] ."'>". $_SESSION["name"] ."&nbsp; <span class='glyphicon glyphicon-user' aria-hidden='true'></span></a></li>");
         echo ('<li><a href="index.php?page=home&todo=logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a></li>');
     } else {
         echo ('<li><a href="index.php?page=login">Log in</a></li>');
