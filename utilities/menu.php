@@ -48,12 +48,6 @@ $pageList["economic"] = array(
     "subtitle" => "Economic briefing",
     "subPages" => false,
     "menuTitle" => "Economic");
-$pageList["social"] = array(
-    "name" => "social",
-    "title" => "Situation",
-    "subtitle" => "Social & political briefing",
-    "subPages" => false,
-    "menuTitle" => "Social");
 $pageList["backroom"] = array(
     "name" => "backroom",
     "title" => "Backroom",
@@ -105,7 +99,7 @@ $menuPageListUnlogged = array("news_messages", "situation");
 
 $subPageList = array();
 $subPageList["directives"] = array("responses", "send_directives");
-$subPageList["situation"] = array("economic", "military", "social");
+$subPageList["situation"] = array("economic", "military");
 $subPageList["backroom"] = array("cabinets_delegates", "manage_news", "manage_situation", "manage_directives");
 
 function checkPage($askedPage) {

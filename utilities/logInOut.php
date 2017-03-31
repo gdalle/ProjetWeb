@@ -7,7 +7,8 @@ function login($dbh) {
         $_SESSION["login"] = htmlspecialchars($_POST["login"]);
         $_SESSION["userId"] = htmlspecialchars($user->id);
         $_SESSION["admin"] = $user->admin;
-        $_SESSION["name"] = htmlspecialchars($user->name);
+        $_SESSION["name"] = $user->name;
+        $_SESSION["cabinet"] = $user->cabinet;
     }
 }
 
