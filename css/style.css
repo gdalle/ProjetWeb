@@ -89,3 +89,43 @@ input-group {
 #custom-bootstrap-menu.navbar-default .navbar-toggle:focus .icon-bar {
     background-color: #091766;
 }
+
+.show_changer:hover {
+    cursor: pointer;
+    color: red;
+}
+
+span.delete_user:hover {
+    cursor: pointer;
+    color: red;
+}
+
+span.delete_cabinet:hover {
+    cursor: pointer;
+    color:red;
+}
+
+span.show_content:hover{
+    cursor:pointer;
+    color:red;
+}
+
+span.vote_favor:hover{
+    cursor:pointer;
+    color:red;
+}
+
+span.vote_against:hover{
+    cursor:pointer;
+    color:red;
+}
+
+span.delete_directive:hover{
+    cursor:pointer;
+    color:red;
+}
+
+span.see_user:hover{
+    cursor:pointer;
+    color:red;
+}

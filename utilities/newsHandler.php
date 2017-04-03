@@ -1,56 +1,32 @@
 <?php
-function displayNews()
-{
-  $db = MyDatabase::connect();
-  $news = $db->query("SELECT * FROM news;");
-  $newsItems = array();
-  while($newsItem = $news->fetch())
-  {
-    $newsItems[] = $newsItem;
-  }
-  ?>
+session_name("SecretSessionName");
+session_start();
+if (!isset($_SESSION['initiated'])) {
+    session_regenerate_id();
+    $_SESSION['initiated'] = true;
+}
+require("logInOut.php");
+require("database.php");
+$dbh = MyDatabase::connect();
 
-  <div class="col-sm-4">
-      <div class="panel panel-info">
-          <div class="panel-heading">
-              <h3 class="panel-title">Newsfeed</h3>
-          </div>
-          <div class="panel-body pre-scrollable">
-              <ul class="list-group nav nav-tabs nav-stacked">
+if (isLogged() && $_GET['todo'] == "publish_news") {
+    publish_news($dbh);
+    header("Location: ../index.php?page=manage_news");
+}
 
-  <?php
-  for($i=0; $i<sizeOf($newsItems); $i++)
-  {
-      ?>
-      <li href ="#tab<?php echo $i; ?>" data-toggle="tab" class="list-group-item <?php if($i==0) { echo "active"; }?>"><?php echo $newsItems[$i]['title']; ?></li>
-      <?php
-  }
-  ?>
-
-  </ul>
-  </div>
-  </div>
-  </div>
-  <div class="col-sm-4">
-  <div class="panel panel-default pre-scrollable">
-  <div class="tab-content">
-
-  <?php
-  for($i=0; $i<sizeOf($newsItems); $i++)
-  {
-    ?>
-    <div class="tab-pane fade <?php if($i==0) { echo "in active"; }?>" id="tab<?php echo $i; ?>">
-      <div class="panel-heading"><h3 class="panel-title"><b><?php echo($newsItems[$i]["title"]); ?></b></h3></div>
-      <div class="panel-body">
-          <?php echo($newsItems[$i]["content"]); ?>
-      </div>
-    </div>
-    <?php
-  }
-  ?>
-  </div>
-  </div>
-  </div>
-  <?php
+function publish_news($dbh) {
+    $title = htmlspecialchars($_POST["news_title"]);
+    $content = htmlspecialchars($_POST["news_content"]);
+    $argumentsCorrect = true;
+    $success = false;
+    if ($argumentsCorrect) {
+        $success = NewsItem::insertNewsItem($dbh, $title, $content);
+    }
+    if ($success) {
+        echo "Publication succeeded";
+    } else {
+        echo "Publication failed";
+    }
+    return $success;
 }
 ?>

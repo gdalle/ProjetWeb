@@ -34,7 +34,7 @@ function create_cabinet($dbh) {
             echo "<td>$cabinet_id</td>";
             echo "<td>$cabinet_name</td>";
             echo "<td>$cabinet_description</td>";
-            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id=delete_cabinet_" . $cabinet->id . "></span></td>";
+            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id='delete_cabinet_" . $cabinet_id . "'></span></td>";
             echo "</tr>";
         }
         return $success;
@@ -57,7 +57,7 @@ function create_user($dbh) {
     if ($argumentsCorrect) {
         $user_login = htmlspecialchars($_POST['user_login']);
         $user_password = htmlspecialchars($_POST['user_password']);
-        $user_admin = 0;
+        $user_admin = htmlspecialchars($_POST['user_admin']);
         $user_name = htmlspecialchars($_POST['user_name']);
         $user_cabinet = htmlspecialchars($_POST['user_cabinet']);
         $user_character = htmlspecialchars($_POST['user_character']);
@@ -73,7 +73,7 @@ function create_user($dbh) {
             echo "<td>" . $user_name . "</td>";
             echo "<td>" . $user_cabinet . "</td>";
             echo "<td>" . $user_character . "</td>";
-            echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id=delete_user_" . $user->id . "></span><a href='index.php?page=profile&userId=" . $user->id . "'></span><span class='glyphicon glyphicon-user'></span></a></td>";
+            echo "<td><span class='glyphicon glyphicon-remove delete_user' id='delete_user_" . $user->id . "'></span> &nbsp;  <a href='index.php?page=profile&userId=" . $user->id . "'><span class='glyphicon glyphicon-user'></span></a></td>";
             echo "</tr>";
         }
         return $success;

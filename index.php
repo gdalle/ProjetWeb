@@ -12,7 +12,6 @@ require("utilities/menu.php");
 require("utilities/database.php");
 $dbh = MyDatabase::connect();
 require("utilities/logInOut.php");
-require("utilities/printForms.php");
 
 // Traitement des contenus de formulaires
 

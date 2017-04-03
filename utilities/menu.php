@@ -1,4 +1,8 @@
 <?php
+
+$onlyIcon = false;
+$onlyText = true;
+
 $pageList = array();
 $pageList["home"] = array(
     "name" => "home",
@@ -11,13 +15,15 @@ $pageList["news_messages"] = array(
     "title" => "News & Messages",
     "subtitle" => "Keep tabs on the universe",
     "subPages" => false,
-    "menuTitle" => "News & Messages");
+    "menuTitle" => "News & Messages",
+    "icon" => "<span class='glyphicon glyphicon-comment'></span>");
 $pageList["directives"] = array(
     "name" => "directives",
     "title" => "Directives",
     "subtitle" => "Home",
     "subPages" => true,
-    "menuTitle" => "Directives");
+    "menuTitle" => "Directives",
+    "icon" => "<span class='glyphicon glyphicon-list-alt'></span>");
 $pageList["responses"] = array(
     "name" => "responses",
     "title" => "Directives",
@@ -27,33 +33,35 @@ $pageList["responses"] = array(
 $pageList["send_directives"] = array(
     "name" => "send_directives",
     "title" => "Directives",
-    "subtitle" => "Send a directive",
+    "subtitle" => "Send directives",
     "subPages" => false,
-    "menuTitle" => "Send");
+    "menuTitle" => "Send & vote");
 $pageList["situation"] = array(
     "name" => "situation",
     "title" => "Situation",
     "subtitle" => "Home",
     "subPages" => true,
-    "menuTitle" => "Situation");
+    "menuTitle" => "Situation",
+    "icon" => "<span class='glyphicon glyphicon-eye-open'></span>");
 $pageList["military"] = array(
     "name" => "military",
     "title" => "Situation",
     "subtitle" => "Military briefing",
     "subPages" => false,
-    "menuTitle" => "Military");
+    "menuTitle" => "Military situation");
 $pageList["economic"] = array(
     "name" => "economic",
     "title" => "Situation",
     "subtitle" => "Economic briefing",
     "subPages" => false,
-    "menuTitle" => "Economic");
+    "menuTitle" => "Economic situation");
 $pageList["backroom"] = array(
     "name" => "backroom",
     "title" => "Backroom",
     "subtitle" => "Where the shit happens",
     "subPages" => true,
-    "menuTitle" => "Backroom");
+    "menuTitle" => "Backroom",
+    "icon" => "<span class='glyphicon glyphicon-king'></span>");
 $pageList["manage_directives"] = array(
     "name" => "manage_directives",
     "title" => "Backroom management",
@@ -77,19 +85,22 @@ $pageList["cabinets_delegates"] = array(
     "title" => "Backroom management",
     "subtitle" => "Cabinets & delegates",
     "subPages" => false,
-    "menuTitle" => "Cabinets & delegates");
+    "menuTitle" => "Cabinets & delegates",
+    "icon" => "<span class='glyphicon glyphicon-pawn'></span>");
 $pageList["login"] = array(
     "name" => "login",
     "title" => "MUN Crisis Manager",
     "subtitle" => "Log in",
     "subPages" => false,
-    "menuTitle" => "Log in");
+    "menuTitle" => "Log in",
+    "icon" => "<span class='glyphicon glyphicon-log-in'></span>");
 $pageList["profile"] = array(
     "name" => "profile",
     "title" => "Manage your profile",
     "subtitle" => "Tell us all about you",
     "subPages" => false,
-    "menuTitle" => "Profile");
+    "menuTitle" => "Profile",
+    "icon" => "<span class='glyphicon glyphicon-user'></span>");
 
 
 
@@ -98,9 +109,9 @@ $menuPageListAdmin = array("news_messages", "situation", "backroom");
 $menuPageListUnlogged = array();
 
 $subPageList = array();
-$subPageList["directives"] = array("responses", "send_directives");
+$subPageList["directives"] = array("send_directives", "responses");
 $subPageList["situation"] = array("economic", "military");
-$subPageList["backroom"] = array("cabinets_delegates", "manage_news", "manage_situation", "manage_directives");
+$subPageList["backroom"] = array("manage_directives", "manage_news", "manage_situation");
 
 function checkPage($askedPage) {
     global $pageList;
@@ -145,13 +156,15 @@ function imports() {
     <script type="text/javascript" src="js/code.js"></script>
     <script type="text/javascript" charset="utf-8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf-8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
 CHAINE_DE_FIN;
 }
 
 function generateHTMLHeader($pageTitle) {
     echo <<<CHAINE_DE_FIN
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
         <head>
             <meta charset="utf-8"/>
             <meta name="author" content="Guillaume Dalle & Benjamin Petit"/>
@@ -159,7 +172,7 @@ function generateHTMLHeader($pageTitle) {
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
 CHAINE_DE_FIN;
-            imports() ;       
+    imports();
     echo <<<CHAINE_DE_FIN
         </head>
         <body>
@@ -220,11 +233,16 @@ CHAINE_DE_FIN;
     echo ' </ul>
         <ul class="nav navbar-nav navbar-right">';
     if ($logged) {
-        $name = $_SESSION['name'];
-        echo ("<li><a href='index.php?page=profile&userId=". $_SESSION["userId"] ."'>". $_SESSION["name"] ."&nbsp; <span class='glyphicon glyphicon-user' aria-hidden='true'></span></a></li>");
-        echo ('<li><a href="index.php?page=home&todo=logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a></li>');
+        if ($admin) {
+            menuItem($askedPage, $pageList["cabinets_delegates"]);
+            //echo ("<li><a href='index.php?page=cabinets_delegates'>Users &nbsp; <span class='glyphicon glyphicon-pawn' aria-hidden='true'></span></a></li>");
+        }
+        menuItem($askedPage, $pageList["profile"]);
+        //echo ("<li><a href='index.php?page=profile&userId=" . $_SESSION["userId"] . "'>" . $_SESSION["character"] . "&nbsp; <span class='glyphicon glyphicon-user' aria-hidden='true'></span></a></li>");
+        echo ('<li><a href="index.php?page=home&todo=logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>');
     } else {
-        echo ('<li><a href="index.php?page=login">Log in</a></li>');
+        menuItem($askedPage, $pageList["login"]);
+        //echo ('<li><a href="index.php?page=login">Log in</a></li>');
     }
     echo <<<CHAINE_DE_FIN
         </ul>
@@ -235,12 +253,22 @@ CHAINE_DE_FIN;
 }
 
 function menuItem($askedPage, $page) {
+    global $onlyIcon;
+    global $onlyText;
     $name = $page["name"];
     $menuTitle = $page["menuTitle"];
-    if ($name == $askedPage) {
-        echo "<li class='active'><a href='index.php?page=$name'>$menuTitle</a></li>";
+    $icon = $page["icon"];
+    if ($onlyIcon) {
+        $realTitle = $icon;
+    } else if ($onlyText) {
+        $realTitle = $menuTitle;
     } else {
-        echo "<li><a href='index.php?page=$name'>$menuTitle</a></li>";
+        $realTitle = "$icon &nbsp; $menuTitle";
+    }
+    if ($name == $askedPage) {
+        echo "<li class='active'><a href='index.php?page=$name'>$realTitle</a></li>";
+    } else {
+        echo "<li><a href='index.php?page=$name'>$realTitle</a></li>";
     }
 }
 
@@ -258,14 +286,24 @@ function subPageActive($askedPage, $page) {
 function menuSubitems($askedPage, $page) {
     global $pageList;
     global $subPageList;
+    global $onlyIcon;
+    global $onlyText;
     $name = $page["name"];
     $menuTitle = $page["menuTitle"];
+    $icon = $page["icon"];
+    if ($onlyIcon) {
+        $realTitle = $icon;
+    } else if ($onlyText) {
+        $realTitle = $menuTitle;
+    } else {
+        $realTitle = "$icon &nbsp; $menuTitle";
+    }
     if (subPageActive($askedPage, $page)) {
         echo "<li class = 'dropdown active'>";
     } else {
         echo "<li class = 'dropdown'>";
     }
-    echo "<a href = '#' class = 'dropdown-toggle' data-toggle = 'dropdown'>" . $menuTitle . "</a>";
+    echo "<a href = '#' class = 'dropdown-toggle' data-toggle = 'dropdown'>$realTitle</a>";
     echo "<ul class = 'dropdown-menu'>";
     foreach ($subPageList[$name] as $subPage) {
         echo "<li><a href ='index.php?page=";

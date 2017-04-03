@@ -9,10 +9,10 @@
                 <table class="table table-responsive table-striped">
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>name</th>
-                            <th>description</th>
-                            <th>options</th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Options</th>
                         </tr>
                     </thead>
                     <tbody id="cabinets_table">
@@ -44,13 +44,13 @@
                 <table class="table table-responsive table-striped">
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>login</th>
-                            <th>admin</th>
-                            <th>name</th>
-                            <th>cabinet</th>
-                            <th>character</th>
-                            <th>options<th>
+                            <th>Id</th>
+                            <th>Login</th>
+                            <th>Admin</th>
+                            <th>Name</th>
+                            <th>Cabinet</th>
+                            <th>Character</th>
+                            <th>Options<th>
                         </tr>
                     </thead>
                     <tbody id="users_table">
@@ -65,7 +65,7 @@
                             echo "<td>" . $data["name"] . "</td>";
                             echo "<td>" . $data["cabinet"] . "</td>";
                             echo "<td>" . $data["character"] . "</td>";
-                            echo "<td><span class='glyphicon glyphicon-remove delete_user' id=delete_user_" . $data['id'] . "><a href='index.php?page=profile&userId=" . $data['id'] . "'></span><span class='glyphicon glyphicon-user'></span></a></td>";
+                            echo "<td><span class='glyphicon glyphicon-remove delete_user' id=delete_user_" . $data['id'] . "></span> &nbsp; <a href='index.php?page=profile&userId=" . $data['id'] . "'><span class='glyphicon glyphicon-user see_user'></span></a></td>";
                             echo "</tr>";
                         }
                         ?>
@@ -113,35 +113,35 @@
                 <form action="index.php?page=home" id="create_user" method="post">
 
                     <div class="form-group row">
-                        <label for="cabinet_name" class="col-sm-3 col-form-label">Login</label> 
+                        <label for="user_login" class="col-sm-3 col-form-label">Login</label> 
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="user_login" id="user_login">
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="cabinet_name" class="col-sm-3 col-form-label">Password</label> 
+                    <div id="password_form" class="form-group row">
+                        <label for="user_password" class="col-sm-3 col-form-label">Password</label> 
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" name="user_password" id="user_password">
+                            <input type="password" class="form-control form-control-warning" name="user_password" id="user_password">
                         </div>
                     </div>
-
+                   
                     <div class="form-group row">
-                        <label for="cabinet_name" class="col-sm-3 col-form-label">Admin ?</label> 
+                        <label for="user_admin" class="col-sm-3 col-form-label">Admin</label> 
                         <div class="col-sm-9">
                             <input type="radio" name="user_admin" value="1" id="user_admin1"> Yes &nbsp;
-                            <input type="radio" name="user_admin" value="0" id="user_admin0" checked> No                        </div>
+                            <input type="radio" name="user_admin" value="0" id="user_admin0"> No                        </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="cabinet_name" class="col-sm-3 col-form-label">Name</label> 
+                        <label for="user_name" class="col-sm-3 col-form-label">Name</label> 
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="user_name" id="user_name">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="cabinet_name" class="col-sm-3 col-form-label">Cabinet</label> 
+                        <label for="user_cabinet" class="col-sm-3 col-form-label">Cabinet</label> 
                         <div class="col-sm-9">
                             <select name="user_cabinet" id="user_cabinet">
                                 <?php
@@ -158,19 +158,18 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="cabinet_name" class="col-sm-3 col-form-label">Character</label> 
+                        <label for="user_character" class="col-sm-3 col-form-label">Character</label> 
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="user_character" id="user_character">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="cabinet_name" class="col-sm-3 col-form-label">Description</label> 
+                        <label for="user_description" class="col-sm-3 col-form-label">Description</label> 
                         <div class="col-sm-9">
-                            <textarea rows="2" class="form-control" name="user_description" id="user_description"></textarea>
+                            <textarea rows="3" class="form-control" name="user_description" id="user_description"></textarea>
                         </div>
                     </div>
-
                     <button type="submit" class="btn btn-primary">Create</button>
                 </form>
             </div>

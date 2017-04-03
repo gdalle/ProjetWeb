@@ -9,10 +9,16 @@ require("logInOut.php");
 require("database.php");
 $dbh = MyDatabase::connect();
 
-if (isLogged() && $_GET['todo'] == "change_password") {
-    change_password($dbh);
+if (isLogged() && $_GET['todo'] == "change_password_comp") {
+    change_password_comp($dbh);
 }
-if (isLogged() && $_GET['todo'] == "change_description") {
+if (isLogged() && isAdmin() && $_GET['todo'] == "change_password_nocomp") {
+    change_password_nocomp($dbh);
+}
+if (isLogged() && isAdmin() && $_GET['todo'] == "change_character") {
+    change_character($dbh);
+}
+if (isLogged() && isAdmin() && $_GET['todo'] == "change_description") {
     change_description($dbh);
 }
 if (isLogged() && $_GET['todo'] == "change_email") {
@@ -22,11 +28,23 @@ if (isLogged() && $_GET['todo'] == "change_phone") {
     change_phone($dbh);
 }
 
-function change_password($dbh) {
+function change_password_comp($dbh) {
     $user = User::getUserId($dbh, $_SESSION["userId"]);
     $newPassword = htmlspecialchars($_POST["newPassword"]);
     $oldPassword = htmlspecialchars($_POST["oldPassword"]);
     $success = User::setPassword($dbh, $user, $oldPassword, $newPassword);
+    if ($success) {
+        echo "Password successfully changed";
+    } else {
+        echo "Password hasn't changed";
+    }
+}
+
+function change_password_nocomp($dbh) {
+    $user = User::getUserId($dbh, $_SESSION["userId"]);
+    $newPassword = htmlspecialchars($_POST["newPassword"]);
+    $oldPassword = htmlspecialchars($_POST["oldPassword"]);
+    $success = User::setPasswordNoComp($dbh, $user, $newPassword);
     if ($success) {
         echo "Password successfully changed";
     } else {
@@ -40,6 +58,17 @@ function change_description($dbh) {
     $success = User::setDescription($dbh, $user, $newDescription);
     if ($success) {
         echo $newDescription;
+    } else {
+        echo "No change occurred";
+    }
+}
+
+function change_character($dbh) {
+    $user = User::getUserId($dbh, $_SESSION["userId"]);
+    $newCharacter = htmlspecialchars($_POST["newCharacter"]);
+    $success = User::setCharacter($dbh, $user, $newCharacter);
+    if ($success) {
+        echo $newCharacter;
     } else {
         echo "No change occurred";
     }

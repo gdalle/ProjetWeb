@@ -2,7 +2,7 @@
 $noUser = !isset($_GET["userId"]);
 $rightUser = ($_GET["userId"] == $_SESSION["userId"]);
 if ($noUser) {
-    header("Location: ./index.php?page=home");
+    header("Location: ./index.php?page=profile&userId=".$_SESSION["userId"]);
 } else {
     $user = User::getUserId($dbh, $_GET["userId"]);
     if ($user == null) {
@@ -57,18 +57,30 @@ END_STRING;
                     </li>
                     <li class="list-group-item">
                         <?php
-                        echo "<b>Cabinet : </b>" . $cabinet;
+                        echo "<b>Cabinet : </b>" . $cabinet->name;
                         ?>
                     </li>
                     <li class="list-group-item" id="profile_character">
                         <?php
                         echo "<b>Character : </b>" . $user->character;
+                        if (isAdmin()) {
+                            echo <<<END_STRING
+                            <span class='glyphicon glyphicon-pencil show_changer' id="show_changer_0"></span>
+                            <br>
+                            <form id="show_changer_0_form" hidden>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="newCharacter" placeholder="Enter new character">
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="change_character">Save</button>
+                            </form>
+END_STRING;
+                        }
                         ?>
                     </li>
                     <li class="list-group-item" id="profile_description">
                         <?php
                         echo "<b>Description : </b> <span id='content_changer_1'>" . $user->description . "</span>";
-                        if ($rightUser || isAdmin()) {
+                        if (isAdmin()) {
                             echo <<<END_STRING
                             <span class='glyphicon glyphicon-pencil show_changer' id="show_changer_1"></span>
                             <br>
@@ -136,7 +148,7 @@ END_STRING;
                         ?>
                     </li>
                     <?php
-                    if ($rightUser || isAdmin()) {
+                    if ($rightUser) {
                         echo <<<END_STRING
                     <li class="list-group-item">
                         <form id="password_changer">
@@ -148,7 +160,20 @@ END_STRING;
                                 <label for="newPassword">New password :</label>
                                 <input type="password" class="form-control" id="newPassword">
                             </div>
-                            <button type='submit' class='btn btn-primary' id='change_password'>Change password</button>
+                            <button type='submit' class='btn btn-primary' id='change_password_comp'>Change password</button>
+                            <div id="password_change_result"></div>
+                        </form>
+                    </li>
+END_STRING;
+                    } else if (isAdmin()) {
+                        echo <<<END_STRING
+                    <li class="list-group-item">
+                        <form id="password_changer">
+                            <div class="form-group">
+                                <label for="newPassword">New password :</label>
+                                <input type="password" class="form-control" id="newPassword">
+                            </div>
+                            <button type='submit' class='btn btn-primary' id='change_password_nocomp'>Change password</button>
                             <div id="password_change_result"></div>
                         </form>
                     </li>

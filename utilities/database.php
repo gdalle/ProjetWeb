@@ -1,12 +1,14 @@
 <?php
 
+$salt = "Iletaitunebergerequiallaitaumarche314159€€€£££";
+
 class MyDatabase {
 
     public static function connect() {
         $dsn = 'mysql:dbname=MUN;host=127.0.0.1';
         $user = 'root';
         $password = '';
-        $dbh = null;
+        //$dbh = null;
         try {
             $dbh = new PDO($dsn, $user, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -32,6 +34,7 @@ class User {
     public $alive;
     public $email;
     public $phone;
+    
 
     public function __toString() {
         $string = "User " . $this->id;
@@ -42,7 +45,7 @@ class User {
         $query = "SELECT * FROM `users` WHERE id = ?";
         $sth = $dbh->prepare($query);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
-        $success = $sth->execute(array($id));
+        $sth->execute(array($id));
         $user = $sth->fetch();
         $sth->closeCursor();
         return $user;
@@ -52,20 +55,21 @@ class User {
         $query = "SELECT * FROM `users` WHERE login = ?";
         $sth = $dbh->prepare($query);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
-        $success = $sth->execute(array($login));
+        $sth->execute(array($login));
         $user = $sth->fetch();
         $sth->closeCursor();
         return $user;
     }
 
     public static function insertUser($dbh, $login, $password, $admin, $name, $cabinet, $character, $description) {
+        global $salt;
         $query = "INSERT INTO `users` (`id`, `login`, `password_hash`, `admin`, `name`, `cabinet`, `character`, `description`, `alive`, `email`, `phone`) VALUES (NULL, ?, SHA1(?), ?, ?, ?, ?, ?, '1', NULL, NULL)";
         $sth = $dbh->prepare($query);
         $user = User::getUserLogin($dbh, $login);
         $success = false;
         if ($user == NULL) {
             $sth = $dbh->prepare($query);
-            $success = $sth->execute(array($login, $password, $admin, $name, $cabinet, $character, $description));
+            $success = $sth->execute(array($login, $password.$salt, $admin, $name, $cabinet, $character, $description));
         }
         return $success;
     }
@@ -85,7 +89,8 @@ class User {
     }
 
     public static function testPassword($user, $password) {
-        if ($user != NULL && $user->password_hash == SHA1($password)) {
+        global $salt;
+        if ($user != NULL && $user->password_hash == SHA1($password.$salt)) {
             return true;
         } else {
             return false;
@@ -93,19 +98,35 @@ class User {
     }
 
     public static function setPassword($dbh, $user, $oldPassword, $newPassword) {
+        global $salt;
         if (User::testPassword($user, $oldPassword)) {
             $query = "UPDATE `users` SET `password_hash` = SHA1(?) WHERE id = ?";
             $sth = $dbh->prepare($query);
-            $success = $sth->execute(array($newPassword, $user->id));
+            $success = $sth->execute(array($newPassword.$salt, $user->id));
             return $success;
         }
         return false;
+    }
+
+    public static function setPasswordNoComp($dbh, $user, $newPassword) {
+        global $salt;
+        $query = "UPDATE `users` SET `password_hash` = SHA1(?) WHERE id = ?";
+        $sth = $dbh->prepare($query);
+        $success = $sth->execute(array($newPassword.$salt, $user->id));
+        return $success;
     }
 
     public static function setDescription($dbh, $user, $newDescription) {
         $query = "UPDATE `users` SET `description` = ? WHERE id = ?";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array($newDescription, $user->id));
+        return $success;
+    }
+
+    public static function setCharacter($dbh, $user, $newCharacter) {
+        $query = "UPDATE `users` SET `character` = ? WHERE id = ?";
+        $sth = $dbh->prepare($query);
+        $success = $sth->execute(array($newCharacter, $user->id));
         return $success;
     }
 
@@ -140,7 +161,7 @@ class Cabinet {
         $query = "SELECT * FROM `cabinets` WHERE id = ?";
         $sth = $dbh->prepare($query);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'Cabinet');
-        $success = $sth->execute(array($id));
+        $sth->execute(array($id));
         $cabinet = $sth->fetch();
         $sth->closeCursor();
         return $cabinet;
@@ -150,7 +171,7 @@ class Cabinet {
         $query = "SELECT * FROM `cabinets` WHERE name = ?";
         $sth = $dbh->prepare($query);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'Cabinet');
-        $success = $sth->execute(array($name));
+        $sth->execute(array($name));
         $cabinet = $sth->fetch();
         $sth->closeCursor();
         return $cabinet;
@@ -170,6 +191,32 @@ class Cabinet {
         return $success;
     }
 
+    public function findDelegates($dbh) {
+        $query = "SELECT * FROM `users` WHERE cabinet = ?";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Cabinet');
+        $sth->execute(array($this->id));
+        $delegates = [];
+        $i = 0;
+        while ($user = $sth->fetch()) {
+            $delegates[$i] = $user;
+            $i += 1;
+        }
+        return $delegates;
+    }
+
+    public static function populationCabinet($dbh, $id) {
+        $query = "SELECT * FROM `users` WHERE cabinet = ?";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Cabinet');
+        $sth->execute(array($id));
+        $n = 0;
+        while ($user = $sth->fetch()) {
+            $n += 1;
+        }
+        return $n;
+    }
+
 }
 
 class Directive {
@@ -183,6 +230,9 @@ class Directive {
     public $collective;
     public $answer;
     public $answered;
+    public $favor;
+    public $against;
+    public $abstention;
 
     public function __toString() {
         $string = "Directive " . $this->id;
@@ -193,17 +243,50 @@ class Directive {
         $query = "SELECT * FROM `directives` WHERE id = ?";
         $sth = $dbh->prepare($query);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'Directive');
-        $success = $sth->execute(array($id));
+        $sth->execute(array($id));
         $directive = $sth->fetch();
         $sth->closeCursor();
         return $directive;
     }
 
-    public static function insertDirective($dbh, $delegate, $cabinet, $title, $content, $collective) {
-        $query = "INSERT INTO `directives` (`id`, `delegate`, `cabinet`, `time`, `title`, `content`, `collective`, `answer`, `answered`) VALUES (`NULL`, ?, ?, `NULL`, ?, ?, ?, `NULL`, `NULL`)";
+    public static function lastIdDirective($dbh) {
+        $query = "SELECT * FROM `directives` ORDER BY id DESC";
         $sth = $dbh->prepare($query);
-        $success = $sth->execute(array($dbh, $delegate, $cabinet, $title, $content, $collective));
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Directive');
+        $sth->execute(array());
+        $directive = $sth->fetch();
+        $sth->closeCursor();
+        return $directive->id;
+    }
+
+    public static function insertDirective($dbh, $delegate, $cabinet, $title, $content, $collective) {
+        $newId = Directive::lastIdDirective($dbh) + 1;
+        $abstention = Cabinet::populationCabinet($dbh, $cabinet);
+        $query = "INSERT INTO `directives` (`id`, `delegate`, `cabinet`, `time`, `title`, `content`, `collective`, `answer`, `answered`, `favor`, `against`, `abstention`) VALUES ($newId, ?, ?, NULL, ?, ?, ?, NULL, 0, 0, 0, $abstention)";
+        $sth = $dbh->prepare($query);
+        $success = $sth->execute(array($delegate, $cabinet, $title, $content, $collective));
+        if ($collective) {
+            Directive::startVote($dbh, $newId, $cabinet);
+        }
         return $success;
+    }
+
+    public static function startVote($dbh, $directiveId, $cabinetId) {
+        $cabinet = Cabinet::getCabinet($dbh, $cabinetId);
+        $delegates = $cabinet->findDelegates($dbh);
+        foreach ($delegates as $delegate) {
+            $query = "INSERT INTO `vote` (`id`, `directive`, `delegate`) VALUES (NULL, ?, ?)";
+            $sth = $dbh->prepare($query);
+            $success = $sth->execute(array($directiveId, $delegate->id));
+        }
+        return success;
+    }
+    
+    public static function stopVote($dbh, $directiveId) {
+        $query = "DELETE FROM `vote` WHERE `directive`=?";
+        $sth = $dbh->prepare($query);
+        $sth->execute(array($directiveId));
+        return success;
     }
 
     public static function deleteDirective($dbh, $id) {
@@ -213,44 +296,66 @@ class Directive {
         return $success;
     }
 
-}
-
-class Message {
-
-    public $id;
-    public $sender;
-    public $recipient;
-    public $time;
-    public $title;
-    public $content;
-
-    public function __toString() {
-        $string = "Message " . $this->id;
-        return $string;
+    public function status($dbh) {
+        $population = Cabinet::populationCabinet($dbh, $this->cabinet);
+        if ($this->answered) {
+            return "Answered";
+        } else if (!$this->collective || ($this->collective && ($this->favor > $population / 2))) {
+            return "Validated";
+        } else if ($this->collective && $this->abstention > $population / 3) {
+            return "Vote ongoing";
+        } else {
+            return "Rejected";
+        }
+        return "Oh, that's not a normal status";
     }
 
-    public static function getMessage($dbh, $id) {
-        $query = "SELECT * FROM `messages` WHERE id = ?";
-        $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'Message');
-        $success = $sth->execute(array($id));
-        $directive = $sth->fetch();
-        $sth->closeCursor();
-        return $directive;
+    public function cabinet($dbh) {
+        return Cabinet::getCabinet($dbh, $this->cabinet);
     }
 
-    public static function insertMessage($dbh, $sender, $recipient, $title, $content) {
-        $query = "INSERT INTO `messages` (`id`, `sender`, `recipient`, `time`, `title`, `content`) VALUES (`NULL`, ?, ?, `NULL`, ?, ?)";
+    public function delegate($dbh) {
+        return User::getUserId($dbh, $this->delegate);
+    }
+
+    public function answerDirective($dbh, $id, $answer) {
+        $query = "UPDATE `directives` SET `answer`=?,`answered`=1 WHERE id = ?";
         $sth = $dbh->prepare($query);
-        $success = $sth->execute(array($dbh, $sender, $recipient, $title, $content));
+        $success = $sth->execute(array($answer,$id));
         return $success;
     }
 
-    public static function deleteMessage($dbh, $id) {
-        $query = "DELETE FROM `messages` WHERE id = ?";
-        $sth = $dbh->prepare($query);
-        $success = $sth->execute(array($id));
-        return $success;
+    public function voteDirective($dbh, $directiveId, $delegateId, $positive) {
+        
+        // Change the number of votes
+        
+        $dir = Directive::getDirective($dbh, $directiveId);
+        if ($positive) {
+            $newFavor = $dir->favor + 1;
+            $newAbstention = $dir->abstention - 1;
+            $query1 = "UPDATE `directives` SET `favor`=$newFavor,`abstention`=$newAbstention WHERE id = ?";
+        } else {
+            $newAgainst = $dir->against + 1;
+            $newAbstention = $dir->abstention - 1;
+            $query1 = "UPDATE `directives` SET `against`=$newAgainst,`abstention`=$newAbstention WHERE id = ?";
+        }
+        $sth1 = $dbh->prepare($query1);
+        $success1 = $sth1->execute(array($directiveId));
+        
+        // Tell the delegate he doesn't have to vote anymore
+
+        $query2 = "DELETE FROM `vote` WHERE `delegate`=? AND `directive`=?";
+        $sth2 = $dbh->prepare($query2);
+        $success2 = $sth2->execute(array($delegateId, $directiveId));
+        
+        // If necessary, stop the vote
+        
+        $dir2 = Directive::getDirective($dbh, $directiveId);
+        if ($dir2->status($dbh) === "Validated") {
+            Directive::stopVote($dbh, $directiveId);
+        }
+
+        return $success1 && $success2;
     }
 
 }
@@ -271,16 +376,16 @@ class NewsItem {
         $query = "SELECT * FROM `news` WHERE id = ?";
         $sth = $dbh->prepare($query);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'NewsItem');
-        $success = $sth->execute(array($id));
+        $sth->execute(array($id));
         $directive = $sth->fetch();
         $sth->closeCursor();
         return $directive;
     }
 
     public static function insertNewsItem($dbh, $title, $content) {
-        $query = "INSERT INTO `messages` (`id`, `time`, `title`, `content`) VALUES (`NULL`, `NULL`, ?, ?);";
+        $query = "INSERT INTO `news` (`id`, `time`, `title`, `content`) VALUES (NULL, NULL, ?, ?);";
         $sth = $dbh->prepare($query);
-        $success = $sth->execute(array($dbh, $title, $content));
+        $success = $sth->execute(array($title, $content));
         return $success;
     }
 
