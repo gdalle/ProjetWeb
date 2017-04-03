@@ -78,9 +78,9 @@
                                 echo "<td>" . $directive->collective . "</td>";
                                 echo "<td>" . $directive->status($dbh) . "</td>";
                                 if ($toAnswer) {
-                                    echo "<td> <span class='glyphicon glyphicon-trash delete_directive' id='delete_directive_" . $directive->id . "'></span> &nbsp; <button class='btn btn-success answer_directive' id='answer_directive_" . $directive->id . "'>Show / Answer</button></td>";
+                                    echo "<td> <span class='glyphicon glyphicon-trash delete_directive' id='delete_directive_" . $directive->id . "'></span> &nbsp; <button class='btn btn-success show_answer_directive' id='answer_directive_" . $directive->id . "'>Show / Answer</button></td>";
                                 } else {
-                                    echo "<td><span class='glyphicon glyphicon-trash delete_directive' id='delete_directive_" . $directive->id . "'></span></td>";
+                                    echo "<td> <span class='glyphicon glyphicon-trash delete_directive' id='delete_directive_" . $directive->id . "'></span> &nbsp; <button class='btn btn-success show_directive' id='answer_directive_" . $directive->id . "'>Show</button></td>";
                                 }
                                 echo "</tr>";
                             }

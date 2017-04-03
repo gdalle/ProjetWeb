@@ -219,9 +219,13 @@ $(document).ready(function () {
                 });
     });
 
-    $(".answer_directive").click(function () {
+    $(".show_answer_directive").click(function () {
         var id = $(this).attr("id").substr(17);
         if ($(this).html() === "Show / Answer") {
+            $(".show_directive").removeClass("btn-success");
+            $(".show_directive").removeClass("btn-warning");
+            $(".show_directive").addClass("btn-success");
+            $(".show_directive").html("Show");
             $("#content_to_show").html($("#content_to_show_" + id).html());
             $(".directiveIdForm").attr("value", id);
             $("#answer_form").show();
@@ -232,10 +236,34 @@ $(document).ready(function () {
         } else {
             $("#content_to_show").html("");
             $("#answer_form").hide();
-            $(".answer_directive").removeClass("btn-success");
-            $(".answer_directive").removeClass("btn-warning");
-            $(".answer_directive").addClass("btn-success");
-            $(".answer_directive").html("Show / Answer");
+            $(".show_answer_directive").removeClass("btn-success");
+            $(".show_answer_directive").removeClass("btn-warning");
+            $(".show_answer_directive").addClass("btn-success");
+            $(".show_answer_directive").html("Show / Answer");
+        }
+
+    });
+    
+    $(".show_directive").click(function () {
+        var id = $(this).attr("id").substr(17);
+        if ($(this).html() === "Show") {
+            $(".show_answer_directive").removeClass("btn-success");
+            $(".show_answer_directive").removeClass("btn-warning");
+            $(".show_answer_directive").addClass("btn-success");
+            $(".show_answer_directive").html("Show / Answer");
+            $("#content_to_show").html($("#content_to_show_" + id).html());
+            $(".directiveIdForm").attr("value", id);
+            $(this).removeClass("btn-success");
+            $(this).removeClass("btn-warning");
+            $(this).addClass("btn-warning");
+            $(this).html("Hide");
+        } else {
+            $("#content_to_show").html("");
+            $("#answer_form").hide();
+            $(".show_directive").removeClass("btn-success");
+            $(".show_directive").removeClass("btn-warning");
+            $(".show_directive").addClass("btn-success");
+            $(".show_directive").html("Show");
         }
 
     });
