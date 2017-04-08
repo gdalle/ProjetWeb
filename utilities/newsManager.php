@@ -4,7 +4,7 @@ session_start();
 require("database.php");
 require("logInOut.php");
 
-if(!isLogged() && !isAdmin())
+if(!isLogged() || !isAdmin())
 {
   echo "ERROR!!!";
   exit();

@@ -30,7 +30,7 @@ if (isset($_GET['todo']) && $_GET['todo'] == 'getMessages') {
     while ($message = $messages->fetch()) {
 
         echo "<p>";
-        echo "<b> " . $message['name'] . " </b> (". $message["message_date"]. ") <br>";
+        echo '<a href="index.php?page=profile&userId='.$message['user'].'"> ' . $message['name'] . " </a> (". $message["message_date"]. ") <br>";
         echo($message['message']);
         echo "</p>";
     }

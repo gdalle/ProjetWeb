@@ -34,7 +34,7 @@ class User {
     public $alive;
     public $email;
     public $phone;
-    
+
 
     public function __toString() {
         $string = "User " . $this->id;
@@ -281,7 +281,7 @@ class Directive {
         }
         return success;
     }
-    
+
     public static function stopVote($dbh, $directiveId) {
         $query = "DELETE FROM `vote` WHERE `directive`=?";
         $sth = $dbh->prepare($query);
@@ -326,9 +326,9 @@ class Directive {
     }
 
     public function voteDirective($dbh, $directiveId, $delegateId, $positive) {
-        
+
         // Change the number of votes
-        
+
         $dir = Directive::getDirective($dbh, $directiveId);
         if ($positive) {
             $newFavor = $dir->favor + 1;
@@ -341,15 +341,15 @@ class Directive {
         }
         $sth1 = $dbh->prepare($query1);
         $success1 = $sth1->execute(array($directiveId));
-        
+
         // Tell the delegate he doesn't have to vote anymore
 
         $query2 = "DELETE FROM `vote` WHERE `delegate`=? AND `directive`=?";
         $sth2 = $dbh->prepare($query2);
         $success2 = $sth2->execute(array($delegateId, $directiveId));
-        
+
         // If necessary, stop the vote
-        
+
         $dir2 = Directive::getDirective($dbh, $directiveId);
         if ($dir2->status($dbh) === "Validated") {
             Directive::stopVote($dbh, $directiveId);
@@ -393,10 +393,32 @@ class NewsItem {
         $query = "DELETE FROM news WHERE id = ?;";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array($id));
-        echo $success;
         return $success;
     }
 
 }
 
+class MapPoint
+{
+  public $id;
+  public $title;
+  public $latitude;
+  public $longitude;
+
+  public static function insertMapPoint($dbh, $title, $latitude, $longitude)
+  {
+    $query = "INSERT INTO `map_points` (title, latitude, longitude) VALUES (?, ?, ?);";
+    $sth = $dbh->prepare($query);
+    $success = $sth->execute(array($title, $latitude, $longitude));
+    return $success;
+  }
+
+  public static function deleteMapPoint($dbh, $id)
+  {
+    $query = "DELETE FROM map_points WHERE id = ?;";
+    $sth = $dbh->prepare($query);
+    $success = $sth->execute(array($id));
+    return $success;
+  }
+}
 ?>
