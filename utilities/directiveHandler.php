@@ -19,7 +19,7 @@ if (isLogged() && $_GET['todo'] == "vote_directive") {
 }
 if (isLogged() && isAdmin() && $_GET['todo'] == "answer_directive") {
     answer_directive($dbh);
-    //header("Location: ../index.php?page=manage_directives");
+    header("Location: ../index.php?page=manage_directives");
 }
 if (isLogged() && isAdmin() && $_GET['todo'] == "delete_directive") {
     delete_directive($dbh);

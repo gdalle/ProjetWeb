@@ -1,9 +1,17 @@
 $(document).ready(function () {
-    
+
+    $('#calendar').fullCalendar({
+        googleCalendarApiKey: 'AIzaSyDvO8W9r9lRVgB8A4OCNAPk1uf6yS8Cutw',
+        events: {
+            googleCalendarId: 'kiig8cisrlauu6d3a7jm46bs1c@group.calendar.google.com'
+        },
+        defaultView: "listWeek"
+    });
+
     // Password checking
-    
-    $("#user_password").keydown(function() {
-        if ($("#user_password").val().length > 4){
+
+    $("#user_password").keydown(function () {
+        if ($("#user_password").val().length > 4) {
             $("#password_form").removeClass("has-warning");
             $("#password_form").addClass("has-success");
             $("#user_password").removeClass("form-control-warning");
@@ -243,7 +251,7 @@ $(document).ready(function () {
         }
 
     });
-    
+
     $(".show_directive").click(function () {
         var id = $(this).attr("id").substr(17);
         if ($(this).html() === "Show") {
