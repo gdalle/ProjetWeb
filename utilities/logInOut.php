@@ -64,7 +64,7 @@ function isLogged() {
 
 function isAdmin() {
     if (isset($_SESSION["admin"])) {
-        return $_SESSION["admin"];
+        return isLogged() && $_SESSION["admin"];
     }
     return false;
 }

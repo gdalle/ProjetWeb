@@ -1,3 +1,8 @@
+
+<div class="row" id="content_to_show">
+    
+</div>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="panel panel-danger">
@@ -46,11 +51,6 @@
     </div>
 </div>
 
-<div id="content_to_show">
-    
-</div>
-
-
 <div id="hidden_text">
     <!--Hidden text & answers of the directives -->
     <?php
@@ -70,10 +70,12 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            $directive->title
+                            Directive text
                         </h3>
                     </div>
                     <div class="panel-body">
+                        <b>$directive->title</b>
+                        <br><br>
                         $directive->content
                     </div>
                 </div>

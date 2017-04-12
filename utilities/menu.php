@@ -85,7 +85,7 @@ $pageList["cabinets_delegates"] = array(
     "title" => "Backroom management",
     "subtitle" => "Cabinets & delegates",
     "subPages" => false,
-    "menuTitle" => "Cabinets & delegates",
+    "menuTitle" => "Delegates",
     "icon" => "<span class='glyphicon glyphicon-pawn'></span>");
 $pageList["login"] = array(
     "name" => "login",
@@ -96,8 +96,8 @@ $pageList["login"] = array(
     "icon" => "<span class='glyphicon glyphicon-log-in'></span>");
 $pageList["profile"] = array(
     "name" => "profile",
-    "title" => "Manage your profile",
-    "subtitle" => "Tell us all about you",
+    "title" => "Profile",
+    "subtitle" => "I'ts amazing how much we know about you",
     "subPages" => false,
     "menuTitle" => "Profile",
     "icon" => "<span class='glyphicon glyphicon-user'></span>");
@@ -116,7 +116,7 @@ $subPageList["backroom"] = array("manage_directives", "manage_news", "manage_sit
 function checkPage($askedPage) {
     global $pageList;
     foreach ($pageList as $page) {
-        if ($askedPage == $page["name"]) {
+        if ($askedPage == $page["name"] && $page["subPages"] == false) {
             return true;
         }
     }
@@ -156,7 +156,8 @@ function imports() {
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/code.js"></script>
-    
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/moment.js"></script>
@@ -292,8 +293,7 @@ CHAINE_DE_FIN;
             menuItem($askedPage, $pageList["cabinets_delegates"]);
             //echo ("<li><a href='index.php?page=cabinets_delegates'>Users &nbsp; <span class='glyphicon glyphicon-pawn' aria-hidden='true'></span></a></li>");
         }
-        menuItem($askedPage, $pageList["profile"]);
-        //echo ("<li><a href='index.php?page=profile&userId=" . $_SESSION["userId"] . "'>" . $_SESSION["character"] . "&nbsp; <span class='glyphicon glyphicon-user' aria-hidden='true'></span></a></li>");
+        echo ("<li><a href='index.php?page=profile&userId=" . $_SESSION["userId"] . "'><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp; Profile</a></li>");
         echo ('<li><a href="index.php?page=home&todo=logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>');
     } else {
         menuItem($askedPage, $pageList["login"]);

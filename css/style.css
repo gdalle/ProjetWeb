@@ -3,8 +3,6 @@
     Author     : Guillaume
 */
 
-@import url('https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope');
-
 h1,h2,h3 {
     font-weight: bold;
 }
@@ -17,14 +15,12 @@ h1,h2,h3 {
     color: rgba(57, 12, 148, 1);
 }
 
-panel-body {
-    font-weight: bold;
+#danger_feedback {
+    color: red;
 }
 
-.citation {
-    font-family: "Annie Use your Telescope", sans-serif;
-    font-size: 18pt;
-    
+panel-body {
+    font-weight: bold;
 }
 
 a {
@@ -104,6 +100,12 @@ span.delete_cabinet:hover {
     cursor: pointer;
     color:red;
 }
+
+span.delete_newsItem:hover {
+    cursor: pointer;
+    color:red;
+}
+
 
 span.show_content:hover{
     cursor:pointer;

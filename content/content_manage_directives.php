@@ -27,8 +27,11 @@
                     <div class="form-group">
                         <textarea rows="4" class="form-control" name="answer" id="answer"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-block">Send</button>
+                    <button type="submit" class="btn btn-block" id="answer_directive">Send</button>
                 </form>
+                <div id="answer_text">
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -107,6 +110,8 @@
         $toDisplay = true;
         if ($toDisplay) {
             echo "<div id='content_to_show_" . $directive->id . "' hidden><b>$directive->title</b><br><br>$directive->content </div>";
+            echo "<div id='answer_to_show_" . $directive->id . "' hidden>$directive->answer </div>";
+
         }
     }
     ?>

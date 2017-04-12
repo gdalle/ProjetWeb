@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+    // Data tables
+
+    $(".nice_table").DataTable();
+
+    // Calendar
+
     $('#calendar').fullCalendar({
         googleCalendarApiKey: 'AIzaSyDvO8W9r9lRVgB8A4OCNAPk1uf6yS8Cutw',
         events: {
@@ -10,25 +16,28 @@ $(document).ready(function () {
 
     // Password checking
 
-    $("#user_password").keydown(function () {
-        if ($("#user_password").val().length > 4) {
+    $("#button_user_create").hide();
+
+    $("#user_password").keyup(function () {
+        $safe = $("#user_password").val().length > 4 && typeof $("#login_" + $("#user_login").val()).html() === "undefined";
+        if ($safe) {
             $("#password_form").removeClass("has-warning");
             $("#password_form").addClass("has-success");
             $("#user_password").removeClass("form-control-warning");
             $("#user_password").addClass("form-control-success");
-            $("#password_feedback").html("Password secure");
+            $("#button_user_create").show();
+            $("#password_feedback").hide();
         } else {
             $("#password_form").removeClass("has-success");
             $("#password_form").addClass("has-warning");
             $("#user_password").removeClass("form-control-success");
             $("#user_password").addClass("form-control-warning");
-            $("#password_feedback").html("Password not secure");
+            $("#button_user_create").hide()
+            $("#password_feedback").show();
+            $("#password_feedback").html("Password not secure or login used");
         }
     });
 
-    // Data tables
-
-    $(".nice_table").DataTable();
 
     // Profile changing
 
@@ -36,9 +45,8 @@ $(document).ready(function () {
         $.post("utilities/profileChanger.php?todo=change_description",
                 {newDescription: $("#newDescription").val()},
                 function (rep) {
-                    if (rep === "No change occurred") {
-                        $("#change_result").show();
-                        $("#change_result").html(rep);
+                    if (rep === "No change occurred" || rep === "ERROR") {
+                        alert(rep);
                     } else {
                         $("#show_changer_1_form").hide();
                         $("#content_changer_1").html(rep);
@@ -51,9 +59,8 @@ $(document).ready(function () {
         $.post("utilities/profileChanger.php?todo=change_character",
                 {newCharacter: $("#newCharacter").val()},
                 function (rep) {
-                    if (rep === "No change occurred") {
-                        $("#change_result").show();
-                        $("#change_result").html(rep);
+                    if (rep === "No change occurred" || rep === "ERROR") {
+                        alert(rep);
                     } else {
                         $("#show_changer_0_form").hide();
                         $("#content_changer_0").html(rep);
@@ -66,9 +73,8 @@ $(document).ready(function () {
         $.post("utilities/profileChanger.php?todo=change_email",
                 {newEmail: $("#newEmail").val()},
                 function (rep) {
-                    if (rep === "No change occurred") {
-                        $("#change_result").show();
-                        $("#change_result").html(rep);
+                    if (rep === "No change occurred" || rep === "ERROR") {
+                        alert(rep);
                     } else {
                         $("#show_changer_2_form").hide();
                         $("#content_changer_2").html(rep);
@@ -81,9 +87,8 @@ $(document).ready(function () {
         $.post("utilities/profileChanger.php?todo=change_phone",
                 {newPhone: $("#newPhone").val()},
                 function (rep) {
-                    if (rep === "No change occurred") {
-                        $("#change_result").show();
-                        $("#change_result").html(rep);
+                    if (rep === "No change occurred" || rep === "ERROR") {
+                        alert(rep);
                     } else {
                         $("#show_changer_3_form").hide();
                         $("#content_changer_3").html(rep);
@@ -96,6 +101,7 @@ $(document).ready(function () {
         $.post("utilities/profileChanger.php?todo=change_password_comp",
                 {newPassword: $("#newPassword").val(), oldPassword: $("#oldPassword").val()},
                 function (rep) {
+                    alert(rep);
                     $("#password_change_result").html(rep);
                 });
         return false;
@@ -105,6 +111,7 @@ $(document).ready(function () {
         $.post("utilities/profileChanger.php?todo=change_password_nocomp",
                 {newPassword: $("#newPassword").val()},
                 function (rep) {
+                    alert(rep);
                     $("#password_change_result").html(rep);
                 });
         return false;
@@ -120,33 +127,28 @@ $(document).ready(function () {
         $.post("utilities/userHandler.php?todo=create_cabinet",
                 {cabinet_name: $("#cabinet_name").val(), cabinet_description: $("#cabinet_description").val()},
                 function (rep) {
-                    $("#cabinets_table").append(rep);
-                    $(".delete_cabinet").click(function () {
-                        var id = $(this).attr("id").substr(15);
-                        $.post("utilities/userHandler.php?todo=delete_cabinet",
-                                {cabinet_id: id},
-                                function () {
-                                    $("tr#cabinet_" + id).hide();
-                                });
-                    });
+                    if (rep === "Cabinet creation failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("#cabinets_table").append(rep);
+                    }
                 });
         return false;
     });
 
     $("#create_user").submit(function () {
         $admin = $("input[name='user_admin']:checked").val();
+        if (typeof $admin === "undefined") {
+            $admin = 0;
+        }
         $.post("utilities/userHandler.php?todo=create_user",
                 {user_login: $("#user_login").val(), user_password: $("#user_password").val(), user_admin: $admin, user_name: $("#user_name").val(), user_cabinet: $("#user_cabinet").val(), user_character: $("#user_character").val(), user_description: $("#user_description").val()},
                 function (rep) {
-                    $("#users_table").append(rep);
-                    $(".delete_user").click(function () {
-                        var id = $(this).attr("id").substr(12);
-                        $.post("utilities/userHandler.php?todo=delete_user",
-                                {user_id: id},
-                                function () {
-                                    $("tr#user_" + id).hide();
-                                });
-                    });
+                    if (rep === "User creation failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("#users_table").append(rep);
+                    }
                 });
         return false;
     });
@@ -156,8 +158,12 @@ $(document).ready(function () {
         console.log(id);
         $.post("utilities/userHandler.php?todo=delete_cabinet",
                 {cabinet_id: id},
-                function () {
-                    $("tr#cabinet_" + id).hide();
+                function (rep) {
+                    if (rep === "Cabinet deletion failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("tr#cabinet_" + id).hide();
+                    }
                 });
     });
 
@@ -165,12 +171,68 @@ $(document).ready(function () {
         var id = $(this).attr("id").substr(12);
         $.post("utilities/userHandler.php?todo=delete_user",
                 {user_id: id},
-                function () {
-                    $("tr#user_" + id).hide();
+                function (rep) {
+                    if (rep === "User deletion failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("tr#user_" + id).hide();
+                    }
                 });
     });
 
+    // News
+
+    $("#publish").click(function () {
+        $.post("utilities/newsHandler.php?todo=publish_news",
+                {news_title: $("#news_title").val(), news_content: $("#news_title").val()},
+                function (rep) {
+                    if (rep === "News item insertion failed." || rep === "ERROR") {
+                        alert(rep);
+                    }
+                });
+        return false;
+    });
+
+    $(".delete_newsItem").click(function () {
+        var id = $(this).attr("id").substr(16);
+        $.post("utilities/newsHandler.php?todo=delete_newsItem",
+                {'id': id},
+                function (rep) {
+                    if (rep === "News item deletion failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("tr#newsItem_" + id).hide();
+                    }
+                });
+    });
+
+    // Messages
+
+    $("#sendMessage").click(function () {
+        $.post("utilities/chatHandler.php?todo=sendMessage",
+                {message: $("#message").val()},
+                function (rep) {
+                    if (rep === "Message sending failed." || rep === "ERROR") {
+                        alert(rep);
+                    }
+                });
+        return false;
+    });
+
     // Directives
+
+    $("#answer_directive").click(function () {
+        $.post("utilities/directiveHandler.php?todo=answer_directive",
+                {directiveId: $("#directiveId").val(), answer: $("#answer").val()},
+                function (rep) {
+                    if (rep === "Directive answering failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("#answer_form").hide();
+                    }
+                });
+        return false;
+    });
 
     $(".show_content").click(function () {
         var id = $(this).attr("id").substr(13);
@@ -192,10 +254,7 @@ $(document).ready(function () {
             $(this).addClass("btn-danger");
         }
         $("#answer_form").hide();
-        $(".answer_directive").removeClass("btn-success");
-        $(".answer_directive").removeClass("btn-warning");
-        $(".answer_directive").addClass("btn-success");
-        $(".answer_directive").html("Answer");
+        
     });
 
     $(".vote_favor").click(function () {
@@ -204,7 +263,11 @@ $(document).ready(function () {
         $.post("utilities/directiveHandler.php?todo=vote_directive",
                 {directiveId: id, vote: "favor"},
                 function (rep) {
-                    $("#directive_to_vote_" + id).hide();
+                    if (rep === "Vote failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("#directive_to_vote_" + id).hide();
+                    }
                 });
     });
 
@@ -214,7 +277,11 @@ $(document).ready(function () {
         $.post("utilities/directiveHandler.php?todo=vote_directive",
                 {directiveId: id, vote: "against"},
                 function (rep) {
-                    $("#directive_to_vote_" + id).hide();
+                    if (rep === "Vote failed." || rep === "ERROR") {
+                        alert(rep);
+                    } else {
+                        $("#directive_to_vote_" + id).hide();
+                    }
                 });
     });
 
@@ -234,9 +301,14 @@ $(document).ready(function () {
             $(".show_directive").removeClass("btn-warning");
             $(".show_directive").addClass("btn-success");
             $(".show_directive").html("Show");
+            $(".show_answer_directive").removeClass("btn-success");
+            $(".show_answer_directive").removeClass("btn-warning");
+            $(".show_answer_directive").addClass("btn-success");
+            $(".show_answer_directive").html("Show / Answer");
             $("#content_to_show").html($("#content_to_show_" + id).html());
             $(".directiveIdForm").attr("value", id);
             $("#answer_form").show();
+            $("#answer_text").hide();
             $(this).removeClass("btn-success");
             $(this).removeClass("btn-warning");
             $(this).addClass("btn-warning");
@@ -248,6 +320,9 @@ $(document).ready(function () {
             $(".show_answer_directive").removeClass("btn-warning");
             $(".show_answer_directive").addClass("btn-success");
             $(".show_answer_directive").html("Show / Answer");
+            $(this).removeClass("btn-success");
+            $(this).removeClass("btn-warning");
+            $(this).addClass("btn-success");
         }
 
     });
@@ -259,7 +334,14 @@ $(document).ready(function () {
             $(".show_answer_directive").removeClass("btn-warning");
             $(".show_answer_directive").addClass("btn-success");
             $(".show_answer_directive").html("Show / Answer");
+            $(".show_directive").removeClass("btn-success");
+            $(".show_directive").removeClass("btn-warning");
+            $(".show_directive").addClass("btn-success");
+            $(".show_directive").html("Show");
             $("#content_to_show").html($("#content_to_show_" + id).html());
+            $("#answer_form").hide();
+            $("#answer_text").show();
+            $("#answer_text").html($("#answer_to_show_" + id).html());
             $(".directiveIdForm").attr("value", id);
             $(this).removeClass("btn-success");
             $(this).removeClass("btn-warning");
@@ -267,47 +349,17 @@ $(document).ready(function () {
             $(this).html("Hide");
         } else {
             $("#content_to_show").html("");
+            $("#answer_text").hide();
             $("#answer_form").hide();
             $(".show_directive").removeClass("btn-success");
             $(".show_directive").removeClass("btn-warning");
             $(".show_directive").addClass("btn-success");
             $(".show_directive").html("Show");
+            $(this).removeClass("btn-success");
+            $(this).removeClass("btn-warning");
+            $(this).addClass("btn-success");
         }
 
     });
-
-    // Maps
-
-    /*    function drawRegionsMap() {
-     
-     var data = google.visualization.arrayToDataTable([
-     ['Country', 'Communism rate'],
-     ['United States', -100],
-     ['Russia', 75],
-     ['France', -50],
-     ['United Kingdom', -80],
-     ['Ukraine', 20],
-     ['China', 100]
-     ]);
-     
-     var options = {
-     colorAxis: {colors: ['blue', 'red']},
-     backgroundColor: 'white',
-     datalessRegionColor: 'grey',
-     defaultColor: 'purple',
-     };
-     
-     var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-     
-     chart.draw(data, options);
-     }
-     */
-
-    /*
-     $("#regions_div").ready(function () {
-     google.charts.load('current', {'packages': ['geochart']});
-     google.charts.setOnLoadCallback(drawRegionsMap);
-     });
-     */
 
 });

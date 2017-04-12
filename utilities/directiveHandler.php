@@ -13,16 +13,18 @@ if (isLogged() && $_GET['todo'] == "send_directive") {
     send_directive($dbh);
     header("Location: ../index.php?page=send_directives");
 }
-if (isLogged() && $_GET['todo'] == "vote_directive") {
+elseif (isLogged() && $_GET['todo'] == "vote_directive") {
     vote_directive($dbh);
     header("Location: ../index.php?page=send_directives");
 }
-if (isLogged() && isAdmin() && $_GET['todo'] == "answer_directive") {
+elseif (isLogged() && isAdmin() && $_GET['todo'] == "answer_directive") {
     answer_directive($dbh);
     header("Location: ../index.php?page=manage_directives");
 }
-if (isLogged() && isAdmin() && $_GET['todo'] == "delete_directive") {
+elseif (isLogged() && isAdmin() && $_GET['todo'] == "delete_directive") {
     delete_directive($dbh);
+} else {
+    echo "ERROR";
 }
 
 function send_directive($dbh) {
@@ -30,16 +32,19 @@ function send_directive($dbh) {
     $delegate = $_SESSION["userId"];
     $cabinet = $_SESSION["cabinet"];
     $title = htmlspecialchars($_POST["title"]);
-    $content = htmlspecialchars($_POST["content"]);
+    $content = htmlspecialchars($_POST["contentDirective"]);
     $collective = htmlspecialchars($_POST["collective"]);
-    $argumentsCorrect = true;
+    if (!($collective==="1" || $collective==="0")){
+        $collective = "0";
+    }
+    $argumentsCorrect = strlen($title) > 0 && strlen($content) > 0;
     if ($argumentsCorrect) {
         $success = Directive::insertDirective($dbh, $delegate, $cabinet, $title, $content, $collective);
     }
     if ($success) {
-        echo "Insertion successful";
+        echo "Directive creation successful.";
     } else {
-        echo "Insertion failed";
+        echo "Directive creation failed.";
     }
     return $success;
 }
@@ -48,14 +53,14 @@ function answer_directive($dbh) {
     $success = false;
     $id = htmlspecialchars($_POST["directiveId"]);
     $answer = htmlspecialchars($_POST["answer"]);
-    $argumentsCorrect = true;
+    $argumentsCorrect = strlen($answer) > 0;
     if ($argumentsCorrect) {
         $success = Directive::answerDirective($dbh, $id, $answer);
     }
     if ($success) {
-        echo "Answer successful";
+        echo "Directive answering successful.";
     } else {
-        echo "Answer failed";
+        echo "Directive answering failed.";
     }
     return $success;
 }
@@ -68,9 +73,9 @@ function delete_directive($dbh) {
         $success = Directive::deleteDirective($dbh, $id);
     }
     if ($success) {
-        echo "Deletion successful";
+        echo "Directive deletion successful";
     } else {
-        echo "Deletion failed";
+        echo "Directive deletion failed";
     }
     return $success;
 }
@@ -89,9 +94,9 @@ function vote_directive($dbh) {
         }
     }
     if ($success) {
-        echo "Vote successful";
+        echo "Vote successful.";
     } else {
-        echo "Vote failed";
+        echo "Vote failed.";
     }
     return $success;
 }

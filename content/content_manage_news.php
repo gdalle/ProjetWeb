@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/newsManager.js"></script>
+
 <div class="row">
     <div class = "col-sm-6">
         <div class="panel panel-info">
@@ -43,7 +43,7 @@
                     <div class="form-group row">
                         <label for="news_title" class="col-sm-3 col-form-label">Title</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="news_title" id="news_title"></textarea>
+                            <input type="text" class="form-control" name="news_title" id="news_title">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -52,7 +52,7 @@
                             <textarea rows="3" class="form-control" name="news_content" id="news_content"></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-block">Publish</button>
+                    <button type="submit" id="publish" class="btn btn-block">Publish</button>
                 </form>
             </div>
         </div>

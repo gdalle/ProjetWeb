@@ -18,7 +18,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-8" id="calendar">
+    <div class="col-sm-12" id="calendar">
             
     </div>
 </div>

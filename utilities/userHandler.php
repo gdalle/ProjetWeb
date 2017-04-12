@@ -9,20 +9,26 @@ require("logInOut.php");
 require("database.php");
 $dbh = MyDatabase::connect();
 
+if (isLogged() && isAdmin() && $_GET['todo'] == "check_login") {
+    check_login($dbh);
+}
 if (isLogged() && isAdmin() && $_GET['todo'] == "create_cabinet") {
     create_cabinet($dbh);
 }
-if (isLogged() && isAdmin() && $_GET['todo'] == "create_user") {
+elseif (isLogged() && isAdmin() && $_GET['todo'] == "create_user") {
     create_user($dbh);
 }
-if (isLogged() && isAdmin() && $_GET['todo'] == "delete_cabinet") {
+elseif (isLogged() && isAdmin() && $_GET['todo'] == "delete_cabinet") {
     delete_cabinet($dbh, $_POST["cabinet_id"]);
 }
-if (isLogged() && isAdmin() && $_GET['todo'] == "delete_user") {
+elseif (isLogged() && isAdmin() && $_GET['todo'] == "delete_user") {
     delete_user($dbh, $_POST["user_id"]);
+} else {
+    echo "ERROR";
 }
 
 function create_cabinet($dbh) {
+    $success = false;
     $argumentsCorrect = (isset($_POST['cabinet_name']) && isset($_POST['cabinet_description']) && strlen($_POST['cabinet_name']) > 0 && strlen($_POST['cabinet_description']) > 0);
     if ($argumentsCorrect) {
         $cabinet_name = htmlspecialchars($_POST['cabinet_name']);
@@ -37,22 +43,28 @@ function create_cabinet($dbh) {
             echo "<td><span class='glyphicon glyphicon-remove delete_cabinet' id='delete_cabinet_" . $cabinet_id . "'></span></td>";
             echo "</tr>";
         }
-        return $success;
     }
-    return false;
+    if (!$success) {
+        echo "Cabinet creation failed.";
+    }
+    return $success;
 }
 
 function delete_cabinet($dbh, $cabinet_id) {
+    $success = false;
     $cabinet_id = htmlspecialchars($cabinet_id);
     $argumentsCorrect = ($cabinet_id > 0);
     if ($argumentsCorrect) {
         $success = Cabinet::deleteCabinet($dbh, $cabinet_id);
-        return $success;
     }
-    return false;
+    if (!$success) {
+        echo "Cabinet deletion failed.";
+    }
+    return $success;
 }
 
 function create_user($dbh) {
+    $success = false;
     $argumentsCorrect = isset($_POST["user_login"]) && isset($_POST["user_password"]) && isset($_POST["user_name"]) && isset($_POST["user_cabinet"]) && isset($_POST["user_character"]) && isset($_POST["user_description"]) && strlen($_POST["user_login"]) > 0 && strlen($_POST["user_password"]) > 0 && strlen($_POST["user_name"]) > 0 && strlen($_POST["user_cabinet"]) > 0 && strlen($_POST["user_character"]) > 0;
     if ($argumentsCorrect) {
         $user_login = htmlspecialchars($_POST['user_login']);
@@ -76,22 +88,36 @@ function create_user($dbh) {
             echo "<td><span class='glyphicon glyphicon-remove delete_user' id='delete_user_" . $user->id . "'></span> &nbsp;  <a href='index.php?page=profile&userId=" . $user->id . "'><span class='glyphicon glyphicon-user'></span></a></td>";
             echo "</tr>";
         }
-        return $success;
     }
-    return false;
+    if (!$success){
+        echo "User creation failed.";
+    }
+    return $success;
 }
 
 function delete_user($dbh, $user_id) {
+    $success = false;
     $user_id = htmlspecialchars($user_id);
-    if ($user_id == 0) {
-        return false;
-    }
-    $argumentsCorrect = true;
+    $user = User::getUserId($dbh, $user_id);
+    $argumentsCorrect = $user != NULL && $user->login != "admin";
+    echo $argumentsCorrect;
     if ($argumentsCorrect) {
         $success = User::deleteUser($dbh, $user_id);
-        return $success;
     }
-    return false;
+    if (!$success){
+        echo "User deletion failed.";
+    }
+    return $success;
+}
+
+function check_login($dbh){
+    $login = htmlspecialchars($_POST["loginToCheck"]);
+    $user = User::getUserLogin($dbh, $login);
+    if ($user==null) {
+        echo "Login doesn't exist.";
+    } else {
+        echo "Login exists.";
+    }
 }
 
 ?>

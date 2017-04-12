@@ -77,9 +77,15 @@ displayNews();
                         <div id="chatbox" class="pre-scrollable"></div><br/>
                         <div id="chatMessage">
                         <form id="sendMessageForm">
-                            <input type='text' placeholder='Message' id='message' name='message'/>
-                            <input type="submit" id='sendMessage' value='Send message!'/>
-                          </form>
+                            <div class="form-group">
+                                <div class="textarea col-sm-8">
+                                <input type='text' required class="form-control" placeholder='Message' id='message' name='message'/>
+                                </div>
+                                <div class="col-sm-3">
+                                <button class="btn btn-danger" type="submit" id='sendMessage'>Send</button>
+                                </div>
+                            </div>
+                        </form>
                         </div>
 CHAINE_DE_FIN;
                 } else {

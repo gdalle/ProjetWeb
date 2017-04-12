@@ -26,6 +26,9 @@ if (isset($_GET['todo']) && $_GET['todo'] == "logout") {
 
 if (isset($_GET["page"])) {
     $askedPage = $_GET["page"];
+    if ($askedPage != "login" && !isLogged()) {
+        $askedPage = "home";
+    }
 } else {
     $askedPage = "home";
 }
@@ -72,20 +75,14 @@ generateHTMLHeader($pageTitle);
         require("content/content_" . $askedPage . ".php");
     } else {
         echo <<<CHAINE_DE_FIN
-            <div class="row">
-                <div class="alert alert-danger">
-                    <strong>Oops, something went wrong.</strong> Please don't do that again...
-                </div>
-            </div>
-            <div class="row">
-                <img src="medias/sid.jpg" class="img-responsive">
+            <div class="alert alert-danger">
+                <strong>Oops, something went wrong.</strong> Please don't do that again..
             </div>
 
 CHAINE_DE_FIN;
     }
     ?>
 </div>
-
 
 <?php
 generateHTMLFooter();

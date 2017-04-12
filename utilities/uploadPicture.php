@@ -40,5 +40,9 @@ if (!empty($_FILES['profile_picture']['tmp_name']) && is_uploaded_file($_FILES['
     } else
         echo "Wrong file type";
 }
+else {
+    echo "ERROR";
+}
+
 header("Location: ../index.php?page=profile");
 ?>

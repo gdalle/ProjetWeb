@@ -15,15 +15,15 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="collective" class="col-sm-2 col-form-label">Collective</label> 
+                        <label for="collective1" class="col-sm-2 col-form-label">Collective</label> 
                         <div class="col-sm-9">
                             <input type="radio" name="collective" value="1" id="collective1"> Yes &nbsp;
                             <input type="radio" name="collective" value="0" id="collective0"> No                        </div>
                     </div>
                     <div class="form-group row">
-                        <label for="content" class="col-sm-2 col-form-label">Content</label>
+                        <label for="contentDirective" class="col-sm-2 col-form-label">Content</label>
                         <div class="col-sm-10">
-                            <textarea rows="5" class="form-control" name="content" id="content" required></textarea>
+                            <textarea rows="5" class="form-control" name="contentDirective" id="contentDirective" required></textarea>
                         </div>
                     </div>
                     <button class="btn btn-primary" type="submit">Send</button>
@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        $query = "SELECT * FROM `directives` JOIN `vote` ON `directives`.`id` = `vote`.`directive` WHERE `vote`.`delegate` = ? ORDER BY `time` ASC";
+                        $query = "SELECT * FROM `directives` JOIN `vote` ON `directives`.`id` = `vote`.`directive` WHERE `vote`.`delegate` = ? ORDER BY `time` DESC";
                         $sth = $dbh->prepare($query);
                         $success = $sth->execute(array($_SESSION["userId"]));
                         while ($data = $sth->fetch()) {
@@ -85,7 +85,7 @@
                     $rightCabinet = ($directive->cabinet == $_SESSION["cabinet"]);
                     $toDisplay = ($rightCabinet && $directive->collective && ($directive->status($dbh) == "Vote ongoing"));
                     if ($toDisplay) {
-                        echo "<div hidden id='content_to_show_" . $directive->id . "' hidden> 
+                        echo "<div id='content_to_show_" . $directive->id . "' hidden> 
                                 <b>$directive->title</b>
                                 <br>
                                 $directive->content 
