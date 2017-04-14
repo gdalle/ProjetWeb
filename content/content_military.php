@@ -40,9 +40,46 @@
                 </div>
             </div>
         </div>
-        
+    </div>
+    <div class="row"><br/>
+      <div class="panel panel-info">
+          <div class="panel-heading">
+              <h3 class="panel-title">Add points on map</h3>
+          </div>
+          <div class="panel-body">
+            <form action="utilities/mapHandler.php?todo=add_point" method="post">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      Title
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" name="point_title"></input>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      Longitude
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" name="point_longitude"></input>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      Latitude
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" name="point_latitude"></input>
+                    </div>
+                  </div>
+                  <input type="submit" value="Add point"></input>
+                </div>
+              </div>
+            </form>
+          </div>
     </div>
 <?php
   }
   ?>
-

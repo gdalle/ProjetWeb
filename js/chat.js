@@ -10,7 +10,7 @@ $(document).ready(function () {
         return true;
     });
 
-  $("#sendMessageForm").submit(function(){return false;});
+  //$("#sendMessageForm").submit(function(){return false;});
 
     function displayMessages()
     {

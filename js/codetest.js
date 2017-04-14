@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 
     $("#formFilm").submit(function() {
-        
+
         var url = "http://www.omdbapi.com/?t="+$("#titre").val()+"&y=&plot=short&r=json";
         //alert(url);
         $.getJSON(url, function(data) {
@@ -39,28 +39,4 @@ $(document).ready(function() {
         return false;
     }
     );
-
-    /*    $(".lien").click(function(){
-     
-     //$("#main").load("content/content_"+$(this).attr('id')+".php");
-     $.post("content/content_"+$(this).attr('id')+".php",{id:45,toto:'Olivier'},function(rep){
-     $("#main").html(rep);//colle la réponse dans le div d'id main
-     });
-     window.location.hash = $(this).attr('id');
-     return false;
-     });
-     
-     
-     $("#login").keyup(function(){
-     var loginX = $("#login").val(); 
-     $.post("scripts/testUser.php",{login:loginX},function(rep){
-     if(rep=="0"){//login OK
-     $("#login").css("background-color","green");
-     }else{
-     $("#login").css("background-color","red");               
-     }
-     });
-     });
-     */
 });
-

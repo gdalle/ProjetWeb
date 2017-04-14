@@ -7,30 +7,15 @@ require("database.php");
 require("logInOut.php");
 
 if (!isLogged()) {
-    echo "ERROR";
     exit();
 }
 
-if (isset($_GET['todo']) && $_GET['todo'] == 'sendMessage') {
-    $success = false;
-    if (!isset($_POST['message'])) {
-        echo "Message sending failed.";
-        exit();
-    }
-    $message = htmlspecialchars($_POST["message"]);
-    $argumentsCorrect = strlen($message) > 0;
+if (isset($_GET['todo']) && $_GET['todo'] == 'sendMessage' && isset($_POST['message'])) {
+    $message = $_POST['message'];
     $UID = $_SESSION["userId"];
     $cabinet = $_SESSION["cabinet"];
     $db = MyDatabase::connect();
-    $req = $db->prepare("INSERT INTO chat (user, cabinet, message) VALUES(?, ?, ?)");
-    if ($argumentsCorrect) {
-        $success = $req->execute(array($UID, $cabinet, $message));
-    }
-    if (!$success) {
-        echo "Message sending failed.";
-    } else {
-        echo "Message sending successful.";
-    }
+    $success = ChatMessage::insertMessage($db, $UID, $cabinet, $message);
 }
 
 elseif (isset($_GET['todo']) && $_GET['todo'] == 'getMessages') {

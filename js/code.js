@@ -206,19 +206,6 @@ $(document).ready(function () {
                 });
     });
 
-    // Messages
-
-    $("#sendMessage").click(function () {
-        $.post("utilities/chatHandler.php?todo=sendMessage",
-                {message: $("#message").val()},
-                function (rep) {
-                    if (rep === "Message sending failed." || rep === "ERROR") {
-                        alert(rep);
-                    }
-                });
-        return false;
-    });
-
     // Directives
 
     $("#answer_directive").click(function () {
@@ -254,7 +241,7 @@ $(document).ready(function () {
             $(this).addClass("btn-danger");
         }
         $("#answer_form").hide();
-        
+
     });
 
     $(".vote_favor").click(function () {

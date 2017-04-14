@@ -421,4 +421,20 @@ class MapPoint
     return $success;
   }
 }
+
+class ChatMessage
+{
+  public $id;
+  public $cabinet;
+  public $message;
+
+  public static function insertMessage($dbh, $UID, $cabinet, $message)
+  {
+    if(strlen($message) == 0) { return true; }
+    $message = htmlspecialchars($message);
+    $req = $dbh->prepare("INSERT INTO chat (user, cabinet, message) VALUES (:UID, :cabinet, :message)");
+    $success = $req->execute(array(':UID'=> $UID, ':cabinet'=> $cabinet, ':message'=>$message,));
+    return $success;
+  }
+}
 ?>
