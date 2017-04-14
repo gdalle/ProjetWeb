@@ -41,15 +41,15 @@
             <div class="panel-body">
                 <form action="utilities/newsHandler.php?todo=publish_news" method="post" id="news_form">
                     <div class="form-group row">
-                        <label for="news_title" class="col-sm-3 col-form-label">Title</label>
+                        <label for="news_form_title" class="col-sm-3 col-form-label">Title</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="news_title" id="news_title">
+                            <input type="text" class="form-control" name="news_form_title" id="news_form_title">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="news_content" class="col-sm-3 col-form-label">Content</label>
+                        <label for="news_form_content" class="col-sm-3 col-form-label">Content</label>
                         <div class="col-sm-9">
-                            <textarea rows="3" class="form-control" name="news_content" id="news_content"></textarea>
+                            <textarea rows="3" class="form-control" name="news_form_content" id="news_form_content"></textarea>
                         </div>
                     </div>
                     <button type="submit" id="publish" class="btn btn-block">Publish</button>

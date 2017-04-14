@@ -12,8 +12,13 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/mapHandler.php</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/content/content_cabinets_delegates.php</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/database.php</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/js/code.js</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/content/content_profile.php</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/newsHandler.php</file>
             <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/menu.php</file>
+            <file>file:/Applications/XAMPP/htdocs/CrisisManager/utilities/uploadPicture.php</file>
         </group>
     </open-files>
 </project-private>

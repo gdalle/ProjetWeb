@@ -20,8 +20,9 @@ if (isset($_GET['todo']) && $_GET['todo'] == 'sendMessage' && isset($_POST['mess
 
 elseif (isset($_GET['todo']) && $_GET['todo'] == 'getMessages') {
     $db = MyDatabase::connect();
-    $messages = $db->query("SELECT * FROM chat INNER JOIN users ON chat.user = users.id WHERE chat.cabinet = " . $_SESSION['cabinet'] . " ORDER BY chat.message_date ASC;");
-    while ($message = $messages->fetch()) {
+    $sth = $db->prepare("SELECT * FROM chat INNER JOIN users ON chat.user = users.id WHERE chat.cabinet = ? ORDER BY chat.message_date ASC;");
+    $sth->execute(array($_SESSION['cabinet']));
+    while ($message = $sth->fetch()) {
         echo "<p>";
         echo '<a href="index.php?page=profile&userId=' . $message['user'] . '"> ' . $message['name'] . " </a> (" . $message["message_date"] . ") <br>";
         echo($message['message']);

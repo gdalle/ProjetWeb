@@ -83,7 +83,7 @@ function create_user($dbh) {
             echo "<td>" . $user_login . "</td>";
             echo "<td>" . $user_admin . "</td>";
             echo "<td>" . $user_name . "</td>";
-            echo "<td>" . $user_cabinet . "</td>";
+            echo "<td>" . Cabinet::getCabinet($dbh, $user->cabinet)->name . "</td>";
             echo "<td>" . $user_character . "</td>";
             echo "<td><span class='glyphicon glyphicon-remove delete_user' id='delete_user_" . $user->id . "'></span> &nbsp;  <a href='index.php?page=profile&userId=" . $user->id . "'><span class='glyphicon glyphicon-user'></span></a></td>";
             echo "</tr>";

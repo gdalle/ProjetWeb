@@ -430,7 +430,7 @@ class ChatMessage
 
   public static function insertMessage($dbh, $UID, $cabinet, $message)
   {
-    if(strlen($message) == 0) { return true; }
+    if(strlen($message) == 0) { return false; }
     $message = htmlspecialchars($message);
     $req = $dbh->prepare("INSERT INTO chat (user, cabinet, message) VALUES (:UID, :cabinet, :message)");
     $success = $req->execute(array(':UID'=> $UID, ':cabinet'=> $cabinet, ':message'=>$message,));

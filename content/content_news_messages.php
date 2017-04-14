@@ -22,15 +22,10 @@
                         <?php
                         for ($i = 0; $i < sizeOf($newsItems); $i++) {
                             ?>
-                            <li href ="#tab<?php echo $i; ?>" data-toggle="tab" class="list-group-item <?php
-                                if ($i == 0) {
-                                    echo "active";
-                                }
-                                ?>"><?php echo $newsItems[$i]['title']; ?></li>
-        <?php
-    }
-    ?>
-
+                            <a href ="#tab<?php echo $i; ?>" data-toggle="tab" class="news_link list-group-item"><?php echo $newsItems[$i]['title']; ?></a>
+                                <?php
+                            }
+                            ?>
                     </ul>
                 </div>
             </div>
@@ -43,27 +38,27 @@
                     for ($i = 0; $i < sizeOf($newsItems); $i++) {
                         ?>
                         <div class="tab-pane fade <?php
-                     if ($i == 0) {
-                         echo "in active";
-                     }
-                     ?>" id="tab<?php echo $i; ?>">
+                        if ($i == 0) {
+                            echo "in active";
+                        }
+                        ?>" id="tab<?php echo $i; ?>">
                             <div class="panel-heading"><h3 class="panel-title"><b><?php echo($newsItems[$i]["title"]); ?></b></h3></div>
                             <div class="panel-body">
-                        <?php echo($newsItems[$i]["content"]); ?>
+                                <?php echo($newsItems[$i]["content"]); ?>
                             </div>
                         </div>
-            <?php
-        }
-        ?>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
+        <?php
+    }
+    ?>
     <?php
-}
-?>
-<?php
-displayNews();
-?>
+    displayNews();
+    ?>
     <div class="col-sm-4">
         <div class="panel panel-danger">
             <div class="panel-heading">
@@ -76,10 +71,10 @@ displayNews();
                         <script type="text/javascript" src="js/chat.js"></script>
                         <div id="chatbox" class="pre-scrollable"></div><br/>
                         <div id="chatMessage">
-                        <form id="sendMessageForm">
+                        <form id="sendMessageForm" method="post">
                             <div class="form-group">
                                 <div class="textarea col-sm-8">
-                                <input type='text' required class="form-control" placeholder='Message' id='message' name='message'/>
+                                <input type='text' class="form-control" placeholder='Message' id='message' name='message'/>
                                 </div>
                                 <div class="col-sm-3">
                                 <button class="btn btn-danger" type="submit" id='sendMessage'>Send</button>

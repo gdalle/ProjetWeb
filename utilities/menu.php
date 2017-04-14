@@ -39,16 +39,10 @@ $pageList["send_directives"] = array(
 $pageList["situation"] = array(
     "name" => "situation",
     "title" => "Situation",
-    "subtitle" => "Home",
-    "subPages" => true,
-    "menuTitle" => "Situation",
-    "icon" => "<span class='glyphicon glyphicon-eye-open'></span>");
-$pageList["military"] = array(
-    "name" => "military",
-    "title" => "Situation",
     "subtitle" => "Military briefing",
     "subPages" => false,
-    "menuTitle" => "Military situation");
+    "menuTitle" => "Situation",
+    "icon" => "<span class='glyphicon glyphicon-eye-open'></span>");
 $pageList["economic"] = array(
     "name" => "economic",
     "title" => "Situation",
@@ -110,7 +104,6 @@ $menuPageListUnlogged = array();
 
 $subPageList = array();
 $subPageList["directives"] = array("send_directives", "responses");
-$subPageList["situation"] = array("economic", "military");
 $subPageList["backroom"] = array("manage_directives", "manage_news", "manage_situation");
 
 function checkPage($askedPage) {
@@ -156,8 +149,6 @@ function imports() {
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/code.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/moment.js"></script>

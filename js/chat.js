@@ -1,27 +1,25 @@
 $(document).ready(function () {
 
-  $("#sendMessage").click(function(){
+    $("#sendMessage").click(function () {
         var message = $("#message").val();
-        if (message != "")
+        if (message !== "")
         {
             $.post("utilities/chatHandler.php?todo=sendMessage", {message: message});
             $("#message").val("");
         }
-        return true;
+        return false;
     });
-
-  //$("#sendMessageForm").submit(function(){return false;});
 
     function displayMessages()
     {
-          $.get('utilities/chatHandler.php?todo=getMessages', 'false', function(data) {
-          var oldText = $("#chatbox").html();
-          if(oldText !== data)
-          {
-            $('#chatbox').html(data);
-            $('#chatbox').scrollTop($('#chatbox').get(0).scrollHeight);
-          }
-      }, 'text');
+        $.get('utilities/chatHandler.php?todo=getMessages', 'false', function (data) {
+            var oldText = $("#chatbox").html();
+            if (oldText !== data)
+            {
+                $('#chatbox').html(data);
+                $('#chatbox').scrollTop($('#chatbox').get(0).scrollHeight);
+            }
+        }, 'text');
     }
 
     displayMessages();

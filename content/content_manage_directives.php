@@ -1,4 +1,8 @@
 <div class="row">
+    <i>If something doesn't work, please refresh the page.</i>
+</div>
+<br>
+<div class="row">
     <div class="col-sm-6">
         <div class="panel panel-info">
             <div class="panel-heading">

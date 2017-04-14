@@ -184,10 +184,12 @@ $(document).ready(function () {
 
     $("#publish").click(function () {
         $.post("utilities/newsHandler.php?todo=publish_news",
-                {news_title: $("#news_title").val(), news_content: $("#news_title").val()},
+                {news_form_title: $("#news_form_title").val(), news_form_content: $("#news_form_content").val()},
                 function (rep) {
                     if (rep === "News item insertion failed." || rep === "ERROR") {
                         alert(rep);
+                    } else {
+                        location.reload();
                     }
                 });
         return false;
